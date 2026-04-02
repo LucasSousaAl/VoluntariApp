@@ -1,6 +1,6 @@
-import database from '../../../infra/database';
-import { comparePassword } from '../../../infra/password';
-import { generateToken } from '../../../infra/jwt';
+import database from 'infra/database';
+import { comparePassword } from 'infra/password';
+import { generateToken } from 'infra/jwt';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -35,11 +35,16 @@ export default async function handler(req, res) {
     }
 
     // Generate JWT token
-    const token = generateToken({
+    const token = await generateToken({
       id: user.id,
       email: user.email,
       role: user.role,
     });
+
+    res.setHeader('Set-Cookie',
+      `token=${token}; HttpOnly; Path=/; Max-Age=${process.env.JWT_EXPIRATION_NUMBER}; SameSite=Lax${process.env.NODE_ENV === 'production' ? '; Secure' : ''
+      }`
+    );
 
     return res.status(200).json({
       message: 'Login successful',
