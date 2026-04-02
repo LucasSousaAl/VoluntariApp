@@ -1,6 +1,6 @@
-import database from '../../../infra/database';
-import { hashPassword } from '../../../infra/password';
-import { generateToken } from '../../../infra/jwt';
+import database from 'infra/database';
+import { hashPassword } from 'infra/password';
+import { generateToken } from 'infra/jwt';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
@@ -50,14 +50,14 @@ export default async function handler(req, res) {
           password,
           city,
           state,
-          interestArea,
+          "interestArea",
           availability,
           modality,
           role,
-          totalHours,
-          memberSince
+          "totalHours",
+          "memberSince"
         ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, NOW()::date)
-        RETURNING id, nome, email, role, criado_em
+        RETURNING id, nome, email, role, "createdAt"
       `,
       values: [
         nome,
@@ -65,9 +65,9 @@ export default async function handler(req, res) {
         hashedPassword,
         city,
         state,
-        interestArea || null,
-        availability || null,
-        modality || null,
+        interestArea || "Não informado",
+        availability || "Não informado",
+        modality || "Não informado",
         'volunteer', // default role
         0,
       ],

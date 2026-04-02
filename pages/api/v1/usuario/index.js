@@ -5,7 +5,7 @@ import database from "infra/database";
 // GET returns a list of usuarios.
 // POST creates a new usuario and returns the created record.
 async function usuario(req, res) {
-   // Configura o CORS
+  // Configura o CORS
   res.setHeader('Access-Control-Allow-Origin', '*') // ou uma origem específica
   res.setHeader('Access-Control-Allow-Methods', 'DELETE, OPTIONS')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization')
@@ -25,14 +25,14 @@ async function usuario(req, res) {
             initials,
             city,
             state,
-            member_since AS "memberSince",
-            interest_area AS "interestArea",
+            "memberSince",
+            "interestArea",
             availability,
             modality,
-            total_hours AS "totalHours",
-            criado_em
+            "totalHours",
+            "createdAt"
           FROM usuarios
-          ORDER BY criado_em DESC
+          ORDER BY "createdAt" DESC
         `,
       });
 

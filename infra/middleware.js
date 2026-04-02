@@ -1,4 +1,4 @@
-import { verifyToken } from './jwt';
+import { verifyToken } from 'infra/jwt';
 
 export function withAuth(handler) {
   return async (req, res) => {
