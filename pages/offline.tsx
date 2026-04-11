@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Voluntario } from '../models/types';
-import { voluntario as initialVoluntario } from '../data';
+import { voluntario as fallbackVoluntario } from '../data';
+import { getCachedProfileData } from '../lib/offlineStorage';
 import { Divider } from '../components/UI';
-import { Navbar } from '../components/Navbar';
-import { cacheProfileData } from '../lib/offlineStorage';
 
 const categoryBg: Record<string, string> = {
     Educação: 'var(--tag-edu-bg)',
@@ -12,63 +11,29 @@ const categoryBg: Record<string, string> = {
     Saúde: 'var(--tag-hlt-bg)',
 };
 
-export default function ProfilePage() {
-    const [voluntario, setVoluntario] = useState<Voluntario>(initialVoluntario);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState<string | null>(null);
+export default function OfflinePage() {
+    const [voluntario, setVoluntario] = useState<Voluntario>(fallbackVoluntario);
 
     useEffect(() => {
-        // Cacheia os dados do perfil no localStorage para uso offline
-        cacheProfileData(voluntario);
-
-        // async function loadVoluntario() {
-        //     try {
-        //         const res = await fetch('/api/v1/usuario');
-        //         if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
-        //         const data: Voluntario = await res.json();
-        //         console.log('Loaded voluntario:', data);
-        //         setVoluntario(data[0]);
-        //         cacheProfileData(data[0]); // Cacheia dados reais
-        //     } catch (err) {
-        //         console.error('Failed to load voluntario:', err);
-        //         setError('Não foi possível carregar os dados do perfil.');
-        //     } finally {
-        //         setLoading(false);
-        //     }
-        // }
-
-        // loadVoluntario();
-    }, [voluntario]);
-
-    // if (loading) {
-    //     return (
-    //         <div className="page page--cream">
-    //             <div className="container container--mid">
-    //                 <div className="heading-serif" style={{ fontSize: 22 }}>
-    //                     Carregando perfil...
-    //                 </div>
-    //             </div>
-    //         </div>
-    //     );
-    // }
-
-    if (error) {
-        return (
-            <div className="page page--cream">
-                <div className="container container--mid">
-                    <div className="heading-serif" style={{ fontSize: 22 }}>
-                        {error}
-                    </div>
-                </div>
-            </div>
-        );
-    }
+        // Tenta recuperar dados reais do cache (localStorage)
+        const cached = getCachedProfileData();
+        if (cached) {
+            setVoluntario(cached);
+        }
+    }, []);
 
     return (
         <>
-            <Navbar />
-            <div className="page page--cream">
+            {/* Offline Banner inline (sem Navbar, pois pode falhar offline) */}
+            <div className="offline-page-banner">
+                <div className="offline-page-banner__icon">📡</div>
+                <div>
+                    <strong>Você está offline</strong>
+                    <span className="offline-page-banner__sub">Exibindo dados salvos do seu perfil</span>
+                </div>
+            </div>
 
+            <div className="page page--cream" style={{ paddingTop: 80 }}>
                 <div className="container container--mid profile-grid">
 
                     {/* ── Profile Card ── */}

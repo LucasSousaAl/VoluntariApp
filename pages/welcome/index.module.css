@@ -6,7 +6,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 24px 20px;
+  padding: 0px 20px;
 }
 
 .welcome_inner {
@@ -92,7 +92,6 @@
   color: white !important;
 }
 
-/* ── Tablet (≥ 576px) ── */
 @media (min-width: 576px) {
   .welcome_inner {
     padding: 40px 24px;
@@ -113,14 +112,13 @@
   }
 }
 
-/* ── Desktop (≥ 768px) ── */
 @media (min-width: 768px) {
-  .welcome {
+  /* .welcome {
     padding-top: var(--nav-h);
-  }
+  } */
 
   .welcome_inner {
-    padding: 48px 32px;
+    padding: 0px 32px 10px;
   }
 
   .welcome_emoji {
@@ -140,5 +138,82 @@
 
   .welcome_actions :global(.ant-btn) {
     padding: 18px 28px;
+  }
+}
+
+/* ── Botão Instalar PWA ── */
+.install_btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 8px;
+  padding: 14px 24px;
+  border: 1.5px solid rgba(123, 191, 149, 0.4);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: var(--green-300);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  animation: installPulse 2.5s ease-in-out infinite;
+}
+
+.install_btn:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: var(--green-300);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 20px rgba(74, 138, 99, 0.3);
+}
+
+.install_btn:active {
+  transform: translateY(0);
+}
+
+.install_btn_icon {
+  font-size: 20px;
+  line-height: 1;
+}
+
+@keyframes installPulse {
+
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(123, 191, 149, 0);
+  }
+
+  50% {
+    box-shadow: 0 0 0 6px rgba(123, 191, 149, 0.15);
+  }
+}
+
+/* ── Mensagem de sucesso de instalação ── */
+.install_success {
+  margin-top: 12px;
+  padding: 12px 20px;
+  border-radius: var(--radius);
+  background: rgba(74, 138, 99, 0.2);
+  border: 1px solid rgba(123, 191, 149, 0.3);
+  color: var(--green-300);
+  font-size: 14px;
+  font-weight: 500;
+  text-align: center;
+  animation: fadeInUp 0.4s ease;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }

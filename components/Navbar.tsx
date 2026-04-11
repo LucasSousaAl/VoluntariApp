@@ -9,7 +9,7 @@ import { voluntario } from '../data';
 import styles from './Navbar.module.css';
 
 const navItems = [
-    { href: '/Home', label: 'Home' },
+    { href: '/home', label: 'Home' },
     { href: '/vaga', label: 'Vaga' },
     { href: '/ong', label: 'ONG' },
     { href: '/profile', label: 'Perfil' },
@@ -24,7 +24,7 @@ export const Navbar = () => {
         <>
             <nav className={styles.navbar}>
                 {/* Logo */}
-                <Link href="/" className={styles.navbar__logo}>
+                <Link href="/home" className={styles.navbar__logo}>
                     <img
                         src="/icon-transparent.png"
                         alt="VoluntariApp Logo"
