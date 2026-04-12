@@ -92,13 +92,13 @@ export default function WelcomePage() {
                 </Text>
 
                 <div className={styles.welcome_actions}>
-                    <Link href="/Register" onClick={() => setUserType('volunteer')}>
+                    <Link href="/register" onClick={() => setUserType('volunteer')}>
                         <Button type="primary" block size="large">
                             Quero me voluntariar →
                         </Button>
                     </Link>
 
-                    <Link href="/Register" onClick={() => setUserType('ong')}>
+                    <Link href="/register" onClick={() => setUserType('ong')}>
                         <Button type="default" block size="large">
                             Sou uma ONG
                         </Button>
