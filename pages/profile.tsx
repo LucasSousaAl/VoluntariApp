@@ -9,6 +9,7 @@ import { Spin, message, Modal, Form, Input, Select } from 'antd';
 import { useApp } from '../context/AppContext';
 
 const { Option } = Select;
+import { cacheProfileData } from '../lib/offlineStorage';
 
 const categoryBg: Record<string, string> = {
     Educação: 'var(--tag-edu-bg)',
@@ -114,7 +115,7 @@ export default function ProfilePage() {
                 const res = await fetch('/api/v1/auth/me'); // Just pulling session user context as standard for now
                 if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
                 const sessionData = await res.json();
-                
+
                 // Assuming we use user session defaults until volunteer API route handles specific info
                 setVoluntario({
                     name: sessionData.nome || "Voluntário",
@@ -128,6 +129,7 @@ export default function ProfilePage() {
                     totalHours: sessionData.totalHours || 0,
                     historico: sessionData.historico || []
                 });
+                cacheProfileData(voluntario);
             } catch (err) {
                 console.error('Failed to load voluntario session:', err);
                 setError('Não foi possível carregar os dados do perfil autenticado.');
@@ -196,9 +198,9 @@ export default function ProfilePage() {
                         <div className="profile-card-mini__badge mb-24">
                             Voluntária desde {voluntario.memberSince}
                         </div>
-                        
-                        <button 
-                            className="btn btn--outline btn--sm mb-16" 
+
+                        <button
+                            className="btn btn--outline btn--sm mb-16"
                             style={{ borderColor: 'rgba(255,255,255,0.4)', color: 'white' }}
                             onClick={showEditProfileModal}
                         >
@@ -251,8 +253,8 @@ export default function ProfilePage() {
                                         {h.hours}h
                                     </div>
                                     <div className="text-muted" style={{ fontSize: 11, marginTop: 2, marginBottom: 8 }}>horas</div>
-                                    <button 
-                                        className="btn btn--outline" 
+                                    <button
+                                        className="btn btn--outline"
                                         style={{ padding: '6px 12px', fontSize: 12, borderColor: '#ff4d4f', color: '#ff4d4f', fontWeight: 600 }}
                                         onClick={(e) => { e.stopPropagation(); handleQuit(h.id); }}
                                         disabled={quittingId === h.id}

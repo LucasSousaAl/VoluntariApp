@@ -6,7 +6,11 @@ export default function Document() {
       <Head>
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#2d5a3d" />
+        <meta name="description" content="App para conectar voluntários a causas sociais" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+        <meta name="apple-mobile-web-app-title" content="VoluntariApp" />
       </Head>
       <body>
         <Main />

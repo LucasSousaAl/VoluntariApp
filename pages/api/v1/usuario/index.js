@@ -25,6 +25,7 @@ async function usuario(req, res) {
             initials,
             city,
             state,
+            role,
             "memberSince",
             "interestArea",
             availability,

@@ -9,7 +9,7 @@ import { voluntario } from '../data';
 import styles from './Navbar.module.css';
 
 const navItems = [
-    { href: '/Home', label: 'Home' },
+    { href: '/home', label: 'Home' },
     { href: '/form', label: 'Criar Vaga' },
     { href: '/ong', label: 'Dashboard ONG' },
     { href: '/profile', label: 'Perfil' },
@@ -47,7 +47,7 @@ export const Navbar = () => {
         <>
             <nav className={styles.navbar}>
                 {/* Logo */}
-                <Link href="/" className={styles.navbar__logo}>
+                <Link href="/home" className={styles.navbar__logo}>
                     <img
                         src="/icon-transparent.png"
                         alt="VoluntariApp Logo"
@@ -70,10 +70,10 @@ export const Navbar = () => {
 
                     {/* Sair / Logout Desktop */}
                     {currentUserRole !== 'guest' && (
-                        <button 
-                            className={`${styles.navbar__tab} ${styles.navbar__tab_logout} flex items-center gap-4`} 
+                        <button
+                            className={`${styles.navbar__tab} ${styles.navbar__tab_logout} flex items-center gap-4`}
                             onClick={handleLogout}
-                            style={{ 
+                            style={{
                                 background: 'transparent', border: 'none', cursor: 'pointer',
                                 color: 'rgba(255,255,255,0.7)', marginLeft: '16px'
                             }}
@@ -117,8 +117,8 @@ export const Navbar = () => {
 
                     {/* Sair / Logout Mobile */}
                     {currentUserRole !== 'guest' && (
-                        <button 
-                            className={styles.mobile_drawer_link} 
+                        <button
+                            className={styles.mobile_drawer_link}
                             onClick={() => {
                                 setDrawerOpen(false);
                                 handleLogout();

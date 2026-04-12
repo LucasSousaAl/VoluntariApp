@@ -1,12 +1,16 @@
 {
+  "id": "/",
   "name": "VoluntariApp",
   "short_name": "VoluntariApp",
   "description": "App para conectar voluntários a causas sociais",
+  "lang": "pt-BR",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#f5f2ec",
   "theme_color": "#2d5a3d",
   "orientation": "portrait-primary",
+  "categories": ["social", "lifestyle"],
   "icons": [
     {
       "src": "/icon-192x192.png",

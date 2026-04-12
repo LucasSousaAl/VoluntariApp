@@ -22,20 +22,3 @@ export async function verifyToken(token: string) {
     return null
   }
 }
-// export function generateToken(payload: object) {
-//   return jwt.sign(payload, JWT_SECRET, { expiresIn: JWT_EXPIRATION });
-// }
-
-// export function verifyToken(token: string) {
-//   try {
-//     return jwt.verify(token, JWT_SECRET);
-//   } catch (error) {
-//     return null;
-//   }
-// }
-
-// export function decodeToken(token: string) {
-//   return jwt.decode(token);
-// }
-// infra/jwt.ts
-// import { SignJWT, jwtVerify } from 'jose'

@@ -8,24 +8,24 @@ export async function middleware(request: NextRequest) {
 
     // sem token → redireciona para login
     if (!token) {
-        return NextResponse.redirect(new URL('/Login', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     const decoded = await verifyToken(token)
 
     // token inválido → redireciona para login
     if (!decoded) {
-        return NextResponse.redirect(new URL('/Login', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
-    if (pathname === "/") {
-        return NextResponse.redirect(new URL('/Home', request.url));
-    }
+    // if (pathname === "/") {
+    //     return NextResponse.redirect(new URL('/Home', request.url));
+    // }
 
     return NextResponse.next();
 }
 
 
 export const config = {
-    matcher: ['/Home', '/profile', '/ong', '/vaga', '/form', "/"]
+    matcher: ['/Home', '/profile', '/ong', '/vaga', '/form']
 }

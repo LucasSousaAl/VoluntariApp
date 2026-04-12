@@ -974,3 +974,113 @@ profile-card-mini__content {
 .mt-16 {
   margin-top: 16px;
 }
+
+/* ── Offline Banner (global) ──────────────────────────────── */
+.offline-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 28px 20px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.offline-banner--visible {
+  background: var(--green-900);
+  color: rgba(255, 255, 255, 0.9);
+  transform: translateY(0);
+  animation: offlineBannerSlideIn 0.4s ease forwards;
+}
+
+.offline-banner--hidden {
+  background: var(--green-600);
+  color: white;
+  animation: offlineBannerSlideOut 0.4s ease forwards;
+}
+
+.offline-banner__icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.offline-banner__text {
+  line-height: 1.3;
+}
+
+@keyframes offlineBannerSlideIn {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes offlineBannerSlideOut {
+  0% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  70% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  100% {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+}
+
+/* ── Offline Page Banner ──────────────────────────────────── */
+.offline-page-banner {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 20px 24px;
+  background: var(--green-900);
+  border-bottom: 2px solid var(--green-700);
+  color: white;
+  font-family: 'DM Sans', sans-serif;
+  animation: offlineBannerSlideIn 0.5s ease forwards;
+}
+
+.offline-page-banner__icon {
+  font-size: 22px;
+  line-height: 1;
+}
+
+.offline-page-banner__sub {
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.55);
+  margin-top: 2px;
+}
+
+/* ── Mobile adjustments for profile-grid offline ── */
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    position: static;
+  }
+}
