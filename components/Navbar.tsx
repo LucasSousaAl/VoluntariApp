@@ -26,7 +26,7 @@ export const Navbar = () => {
             setCurrentUserRole('guest');
             // reset specific states if necessary, or just force route
             message.success('Você saiu com sucesso, volte sempre!');
-            router.push('/Login');
+            router.push('/login');
         } catch (error) {
             message.error('Erro ao encerrar sessão.');
         }

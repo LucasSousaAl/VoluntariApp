@@ -4,6 +4,7 @@ import { Form, Input, Button, message } from 'antd';
 import { useRouter } from 'next/router';
 import styles from './style.module.css';
 import { useApp } from '../../context/AppContext';
+import { cacheProfileData } from 'lib/offlineStorage';
 
 export default function LoginPage() {
     const router = useRouter();
@@ -29,19 +30,18 @@ export default function LoginPage() {
 
             const data = await response.json();
             message.success('Login bem-sucedido!');
-            
             // Set AppContext state using the actual JWT extracted user Role
             setCurrentUserRole(data.user.role as any);
-            
+
             // Redirect correctly based on the role the db returned to us
             if (data.user.role === 'ong' || data.user.role === 'admin') {
                 router.push('/ong');
             } else {
-                router.push('/Home');
+                router.push('/home');
             }
 
         } catch (error: any) {
-            message.error('Erro ao conectar ao servidor.');    
+            message.error('Erro ao conectar ao servidor.');
         } finally {
             setLoading(false);
         }
@@ -109,7 +109,7 @@ export default function LoginPage() {
 
                 <div className={styles.auth_footer}>
                     Ainda não tem uma conta?{' '}
-                    <Link href="/Register" className={styles.auth_link}>
+                    <Link href="/register" className={styles.auth_link}>
                         Cadastre-se
                     </Link>
                 </div>

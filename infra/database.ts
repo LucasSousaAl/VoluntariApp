@@ -1,10 +1,9 @@
-import { Client, Pool } from "pg";
+import { Client, QueryConfig, QueryResultRow } from "pg";
 
-
-async function query(queryObject) {
+export async function query<T extends QueryResultRow = any>(queryObject: string | QueryConfig): Promise<T[]> {
   const client = new Client({
     host: process.env.POSTGRES_HOST,
-    port: process.env.POSTGRES_PORT,
+    port: process.env.POSTGRES_PORT ? Number(process.env.POSTGRES_PORT) : 5432,
     user: process.env.POSTGRES_USER,
     database: process.env.POSTGRES_DB,
     password: process.env.POSTGRES_PASSWORD,
@@ -12,7 +11,7 @@ async function query(queryObject) {
   });
   try {
     await client.connect();
-    const res = await client.query(queryObject);
+    const res = await client.query<T>(queryObject);
     return res.rows;
   } catch (error) {
     console.error("Database query error:", error);
@@ -23,8 +22,6 @@ async function query(queryObject) {
   }
 }
 
-
-
 export default {
-  query: query
+  query
 };

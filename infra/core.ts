@@ -1,6 +1,12 @@
-// infra/cors.js
+import { NextApiRequest, NextApiResponse } from 'next';
 
-export function cors(req, res, options = {}) {
+export interface CorsOptions {
+  origin?: string;
+  methods?: string;
+  headers?: string;
+}
+
+export function cors(req: NextApiRequest, res: NextApiResponse, options: CorsOptions = {}): boolean {
   const {
     origin = '*',
     methods = 'GET, POST, PUT, DELETE, OPTIONS',

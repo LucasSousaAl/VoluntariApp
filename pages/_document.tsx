@@ -5,6 +5,8 @@ export default function Document() {
     <Html lang="pt-BR">
       <Head>
         <link rel="manifest" href="/manifest.json" />
+        <link rel="icon" type="image/png" href="/icon-192x192.png" />
+        <link rel="shortcut icon" href="/icon-192x192.png" />
         <meta name="theme-color" content="#2d5a3d" />
         <meta name="description" content="App para conectar voluntários a causas sociais" />
         <link rel="apple-touch-icon" href="/icon-192x192.png" />

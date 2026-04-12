@@ -33,7 +33,7 @@ export default function RegisterPage() {
 
             if (!userResponse.ok) {
                 const data = await userResponse.json();
-                message.error(data.error || 'Erro ao registrar usuário');       
+                message.error(data.error || 'Erro ao registrar usuário');
                 setLoading(false);
                 return;
             }
@@ -56,15 +56,15 @@ export default function RegisterPage() {
                 const ongData = await ongResponse.json();
 
                 if (!ongResponse.ok) {
-                    message.error(ongData.error || 'Autenticado, mas falha ao cadastrar detalhes da ONG');       
+                    message.error(ongData.error || 'Autenticado, mas falha ao cadastrar detalhes da ONG');
                     return;
                 }
             }
-            
+
             message.success('Cadastro realizado com sucesso!');
-            setCurrentUserRole(userType); 
-            router.push(userType === 'ong' ? '/ong' : '/Home');
-            
+            setCurrentUserRole(userType);
+            router.push(userType === 'ong' ? '/ong' : '/home');
+
         } catch (error) {
             message.error('Erro de conexão ao registrar.');
         } finally {
@@ -158,7 +158,7 @@ export default function RegisterPage() {
 
                 <div className={styles.auth_footer}>
                     Já tem uma conta?{' '}
-                    <Link href="/Login" className={styles.auth_link}>
+                    <Link href="/login" className={styles.auth_link}>
                         Faça login
                     </Link>
                 </div>

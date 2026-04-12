@@ -1,15 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { Voluntario } from '../models/types';
-import { voluntario as initialVoluntario } from '../data';
 import { Divider } from '../components/UI';
 import { Navbar } from '../components/Navbar';
 import { useRouter } from 'next/router';
 import { Spin, message, Modal, Form, Input, Select } from 'antd';
-
+import { cacheProfileData } from 'lib/offlineStorage';
 import { useApp } from '../context/AppContext';
+import { usePushNotifications } from '../hooks/usePushNotifications';
 
 const { Option } = Select;
-import { cacheProfileData } from '../lib/offlineStorage';
 
 const categoryBg: Record<string, string> = {
     Educação: 'var(--tag-edu-bg)',
@@ -21,7 +20,8 @@ const categoryBg: Record<string, string> = {
 export default function ProfilePage() {
     const { currentUserRole } = useApp();
     const router = useRouter();
-    const [voluntario, setVoluntario] = useState<Voluntario>(initialVoluntario);
+    const { isSupported, isSubscribed, subscribeToPush, unsubscribeFromPush } = usePushNotifications();
+    const [voluntario, setVoluntario] = useState<Voluntario>(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [quittingId, setQuittingId] = useState<string | null>(null);
@@ -117,7 +117,7 @@ export default function ProfilePage() {
                 const sessionData = await res.json();
 
                 // Assuming we use user session defaults until volunteer API route handles specific info
-                setVoluntario({
+                const volunteerInSession = {
                     name: sessionData.nome || "Voluntário",
                     initials: "VL",
                     city: sessionData.city || 'São Paulo',
@@ -128,8 +128,10 @@ export default function ProfilePage() {
                     modality: sessionData.modality || 'Híbrido',
                     totalHours: sessionData.totalHours || 0,
                     historico: sessionData.historico || []
-                });
-                cacheProfileData(voluntario);
+                }
+                setVoluntario(volunteerInSession);
+                cacheProfileData(volunteerInSession);
+
             } catch (err) {
                 console.error('Failed to load voluntario session:', err);
                 setError('Não foi possível carregar os dados do perfil autenticado.');
@@ -139,6 +141,7 @@ export default function ProfilePage() {
         }
 
         loadVoluntario();
+
     }, []);
 
     if (loading) {
@@ -199,13 +202,24 @@ export default function ProfilePage() {
                             Voluntária desde {voluntario.memberSince}
                         </div>
 
-                        <button
-                            className="btn btn--outline btn--sm mb-16"
-                            style={{ borderColor: 'rgba(255,255,255,0.4)', color: 'white' }}
-                            onClick={showEditProfileModal}
-                        >
-                            Editar Perfil
-                        </button>
+                        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                            <button
+                                className="btn btn--outline btn--sm"
+                                style={{ borderColor: 'rgba(255,255,255,0.4)', color: 'white' }}
+                                onClick={showEditProfileModal}
+                            >
+                                Editar Perfil
+                            </button>
+                            {isSupported && (
+                                <button
+                                    className="btn btn--outline btn--sm"
+                                    style={{ borderColor: 'rgba(255,255,255,0.4)', color: 'white' }}
+                                    onClick={isSubscribed ? unsubscribeFromPush : subscribeToPush}
+                                >
+                                    {isSubscribed ? 'Desativar Notificações' : 'Ativar Notificações'}
+                                </button>
+                            )}
+                        </div>
 
                         <Divider style={{ background: 'rgba(255,255,255,.1)', marginBottom: 16 }} />
 

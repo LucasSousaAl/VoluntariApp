@@ -27,7 +27,7 @@ export function withAuth(handler: Handler) {
         return res.status(401).json({ error: 'Missing token' })
       }
 
-      const decoded = verifyToken(token)
+      const decoded = await verifyToken(token)
 
       if (!decoded) {
         return res.status(401).json({ error: 'Invalid or expired token' })
