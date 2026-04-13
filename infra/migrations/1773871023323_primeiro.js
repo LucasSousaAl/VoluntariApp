@@ -3,8 +3,31 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
+
+  pgm.sql(`
+    CREATE OR REPLACE FUNCTION generate_nanoid(size INT DEFAULT 21)
+    RETURNS TEXT AS $$
+    DECLARE
+      characters TEXT := 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      result TEXT := '';
+      i INT := 0;
+    BEGIN
+      WHILE i < size LOOP
+        result := result || substr(characters, floor(random() * length(characters) + 1)::int, 1);
+        i := i + 1;
+      END LOOP;
+      RETURN result;
+    END;
+    $$ LANGUAGE plpgsql VOLATILE;
+  `);
+
+
   pgm.createTable("usuarios", {
-    id: { type: "serial", primaryKey: true },
+    id: {
+      type: "varchar(21)",
+      primaryKey: true,
+      default: pgm.func("generate_nanoid()")
+    },
     nome: { type: "varchar(255)", notNull: true },
     initials: { type: "varchar(16)" },
     email: { type: "varchar(255)", notNull: true, unique: true },

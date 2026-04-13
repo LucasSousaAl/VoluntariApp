@@ -3,11 +3,16 @@
 exports.shorthands = undefined;
 
 exports.up = (pgm) => {
+
   // Criando a tabela 'Trabalho' da modelagem
   pgm.createTable("trabalhos", {
-    id: { type: "serial", primaryKey: true },
+    id: {
+      type: "varchar(21)",
+      primaryKey: true,
+      default: pgm.func("generate_nanoid()")
+    },
     ong_id: {
-      type: "integer",
+      type: "varchar(21)",
       notNull: true,
       references: '"ongs"',
       onDelete: "cascade",
@@ -23,15 +28,19 @@ exports.up = (pgm) => {
 
   // Criando a tabela de relacionamento "Trabalha em" (Inscricoes) do diagrama
   pgm.createTable("inscricoes", {
-    id: { type: "serial", primaryKey: true },
+    id: {
+      type: "varchar(21)",
+      primaryKey: true,
+      default: pgm.func("generate_nanoid()")
+    },
     voluntario_id: {
-      type: "integer",
+      type: "varchar(21)",
       notNull: true,
       references: '"usuarios"',
       onDelete: "cascade",
     },
     trabalho_id: {
-      type: "integer",
+      type: "varchar(21)",
       notNull: true,
       references: '"trabalhos"',
       onDelete: "cascade",
