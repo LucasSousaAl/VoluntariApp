@@ -26,6 +26,36 @@ export async function list(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
+export async function listByProximity(req: NextApiRequest, res: NextApiResponse) {
+  const { longitude, latitude, raio, categoria } = req.query;
+
+  if (!longitude || !latitude) {
+    return res.status(400).json({ error: 'Os parâmetros longitude e latitude são obrigatórios.' });
+  }
+
+  const lon = parseFloat(String(longitude));
+  const lat = parseFloat(String(latitude));
+
+  if (isNaN(lon) || isNaN(lat)) {
+    return res.status(400).json({ error: 'longitude e latitude devem ser números válidos.' });
+  }
+
+  const raioMetros = raio ? parseInt(String(raio), 10) : 10000;
+
+  try {
+    const trabalhos = await TrabalhoModel.listByProximity(
+      lon,
+      lat,
+      raioMetros,
+      categoria ? String(categoria) : undefined
+    );
+    return res.status(200).json(trabalhos);
+  } catch (error) {
+    console.error('Error fetching closest works:', error);
+    return res.status(500).json({ error: 'Erro interno no servidor.' });
+  }
+}
+
 export async function create(req: NextApiRequest, res: NextApiResponse) {
   const { ong_id, titulo, descricao, n_vagas, categoria, disponibilidade, carga_horaria } = req.body ?? {};
 
@@ -137,4 +167,4 @@ export async function quit(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default { list, create, update, remove, apply, quit };
+export default { list, listByProximity, create, update, remove, apply, quit };

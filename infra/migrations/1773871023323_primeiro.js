@@ -21,6 +21,8 @@ exports.up = (pgm) => {
     $$ LANGUAGE plpgsql VOLATILE;
   `);
 
+  pgm.sql(`CREATE EXTENSION IF NOT EXISTS postgis;`);
+
 
   pgm.createTable("usuarios", {
     id: {

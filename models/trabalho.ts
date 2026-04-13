@@ -74,6 +74,26 @@ export async function update(
   return result[0] || null;
 }
 
+export async function listByProximity(
+  longitude: number,
+  latitude: number,
+  raio: number = 10000,
+  categoria?: string
+): Promise<Trabalho[]> {
+  return database.query<Trabalho>({
+    text: `
+      SELECT t.*, o.nome as ong_nome, o.email as ong_email,
+             o.localidade as ong_city, o.telefone as ong_phone,
+             o.criado_em as ong_since, sc.distance_meters
+      FROM search_close_ongs($1, $2, $3) sc
+      JOIN ongs o ON o.id = sc.id
+      JOIN trabalhos t ON t.ong_id = o.id
+      ORDER BY sc.distance_meters, t.criado_em DESC
+    `,
+    values: [longitude, latitude, raio],
+  });
+}
+
 export async function remove(id: string): Promise<Trabalho | null> {
   const result = await database.query<Trabalho>({
     text: 'DELETE FROM trabalhos WHERE id = $1 RETURNING *',
@@ -82,4 +102,4 @@ export async function remove(id: string): Promise<Trabalho | null> {
   return result[0] || null;
 }
 
-export default { list, findById, findByOngId, create, update, remove };
+export default { list, findById, findByOngId, listByProximity, create, update, remove };

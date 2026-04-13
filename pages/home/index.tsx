@@ -29,35 +29,35 @@ export default function HomePage() {
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchVagas = async () => {
+        const mapTrabalhos = (data: any[]): Vaga[] =>
+            data.map((t: any) => ({
+                id: t.id.toString(),
+                title: t.titulo,
+                ong: t.ong_nome || 'ONG Parceira',
+                city: t.ong_city || 'Remoto/Local',
+                category: (t.categoria?.trim() as Category) || 'Social',
+                modality: 'Híbrido',
+                availability: t.disponibilidade,
+                hoursPerWeek: t.carga_horaria.toString(),
+                totalSlots: t.n_vagas,
+                filledSlots: 0,
+                startDate: new Date(t.criado_em).toLocaleDateString('pt-BR'),
+                description: t.descricao,
+                requirements: [],
+                icon: t.categoria === 'Educação' ? '📚' : t.categoria === 'Saúde' ? '💚' : t.categoria === 'Meio Ambiente' ? '🌱' : '🤝',
+                status: 'Ativa',
+                ongEmail: t.ong_email || '',
+                ongPhone: t.ong_phone || '',
+                ongSince: t.ong_since ? new Date(t.ong_since).getFullYear().toString() : '2023',
+            }));
+
+        const fetchVagas = async (url: string) => {
             try {
-                const response = await fetch('/api/v1/trabalho');
+                const response = await fetch(url);
                 const data = await response.json();
 
                 if (response.ok) {
-                    // Mapeia os dados do Banco para o formato esperado pelo VagaCard
-                    const mappedVagas: Vaga[] = data.map((t: any) => ({
-                        id: t.id.toString(),
-                        title: t.titulo,
-                        ong: t.ong_nome || 'ONG Parceira',
-                        city: t.ong_city || 'Remoto/Local', // Update city fallback
-                        category: (t.categoria?.trim() as Category) || 'Social',
-                        modality: 'Híbrido', // fallback since its not in db yet
-                        availability: t.disponibilidade,
-                        hoursPerWeek: t.carga_horaria.toString(),
-                        totalSlots: t.n_vagas,
-                        filledSlots: 0, // start at 0
-                        startDate: new Date(t.criado_em).toLocaleDateString('pt-BR'),
-                        description: t.descricao,
-                        requirements: [],
-                        icon: t.categoria === 'Educação' ? '📚' : t.categoria === 'Saúde' ? '💚' : t.categoria === 'Meio Ambiente' ? '🌱' : '🤝',
-                        status: 'Ativa',
-                        ongEmail: t.ong_email || '',
-                        ongPhone: t.ong_phone || '',
-                        ongSince: t.ong_since ? new Date(t.ong_since).getFullYear().toString() : '2023',
-                    }));
-
-                    setDbVagas(mappedVagas);
+                    setDbVagas(mapTrabalhos(data));
                 } else {
                     message.error('Erro ao carregar vagas do banco.');
                 }
@@ -68,7 +68,21 @@ export default function HomePage() {
             }
         };
 
-        fetchVagas();
+        const fallbackUrl = '/api/v1/trabalho';
+
+        if ('geolocation' in navigator) {
+            navigator.geolocation.getCurrentPosition(
+                (position) => {
+                    const { longitude, latitude } = position.coords;
+                    fetchVagas(`/api/v1/trabalho-closest?longitude=${longitude}&latitude=${latitude}&raio=10000`);
+                },
+                () => {
+                    fetchVagas(fallbackUrl);
+                }
+            );
+        } else {
+            fetchVagas(fallbackUrl);
+        }
     }, []);
 
     // Normalize string removing accents/special characters for safer comparison

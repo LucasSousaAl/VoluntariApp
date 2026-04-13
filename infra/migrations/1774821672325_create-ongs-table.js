@@ -13,14 +13,13 @@ exports.up = (pgm) => {
       raio_metros INTEGER
     )
     RETURNS TABLE (
-        id INTEGER,
-        nome TEXT,
+        id VARCHAR(21),
         distance_meters FLOAT
     ) AS $$
     BEGIN
         RETURN QUERY
-        SELECT 
-            o.id, 
+        SELECT
+            o.id,
             ST_Distance(o.geoLocation, ST_SetSRID(ST_MakePoint(longitude, latitude), 4326)::geography) AS distance
         FROM ongs o
         WHERE ST_DWithin(

@@ -5,6 +5,23 @@ import { useRouter } from 'next/router';
 import styles from './style.module.css';
 import { useApp } from '../../context/AppContext';
 
+async function geocodeEndereco(address: string): Promise<{ lat: number; lng: number } | null> {
+    try {
+        const encoded = encodeURIComponent(address);
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?q=${encoded}&format=json&limit=1`,
+            { headers: { 'User-Agent': 'VoluntariApp/1.0' } }
+        );
+        const data = await response.json();
+        if (data.length > 0) {
+            return { lat: parseFloat(data[0].lat), lng: parseFloat(data[0].lon) };
+        }
+        return null;
+    } catch {
+        return null;
+    }
+}
+
 export default function RegisterPage() {
     const router = useRouter();
     const { userType, setUserType, setCurrentUserRole, setCurrentUser } = useApp();
@@ -42,6 +59,14 @@ export default function RegisterPage() {
 
             // Then if it's an ONG, ALSO register their specific ONG details
             if (userType === 'ong') {
+                let coords: { lat: number; lng: number } | null = null;
+                if (values.localidade) {
+                    coords = await geocodeEndereco(values.localidade);
+                    if (!coords) {
+                        message.warning('Não foi possível localizar o endereço no mapa. Você poderá atualizar depois.');
+                    }
+                }
+
                 const ongResponse = await fetch('/api/v1/ong', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
@@ -49,7 +74,8 @@ export default function RegisterPage() {
                         nome: values.nome,
                         email: values.email,
                         localidade: values.localidade || "Não informado",
-                        telefone: values.telefone || "000000000"
+                        telefone: values.telefone || "000000000",
+                        ...(coords && { latitude: coords.lat, longitude: coords.lng }),
                     }),
                 });
 
