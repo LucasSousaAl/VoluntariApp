@@ -851,7 +851,7 @@ profile-card-mini__content {
     position: static;
   }
 }
-@media (min-width: 768px) {
+@media (max-width: 768px) {
   .vaga-detail-grid {
     display: block;
   }
