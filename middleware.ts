@@ -4,26 +4,26 @@ import { verifyToken } from 'infra/jwt'
 
 export async function middleware(request: NextRequest) {
     const token = request.cookies.get('token')?.value;
-    const { pathname } = request?.nextUrl || {};
-    // sem token → redireciona para login
-    if (!token) {
-        return NextResponse.redirect(new URL('/', request.url));
+    const { pathname } = request.nextUrl;
+
+    const isValidToken = token ? await verifyToken(token) : null;
+
+    // Rota pública "/": se autenticado, redireciona para /home
+    if (pathname === '/') {
+        if (isValidToken) {
+            return NextResponse.redirect(new URL('/home', request.url));
+        }
+        return NextResponse.next();
     }
 
-    const decoded = await verifyToken(token)
-
-    // token inválido → redireciona para login
-    if (!decoded) {
+    // Rotas protegidas: sem token válido → redireciona para login
+    if (!isValidToken) {
         return NextResponse.redirect(new URL('/login', request.url));
     }
 
-    if (pathname === "/") {
-        return NextResponse.redirect(new URL('/home', request.url));
-    }
     return NextResponse.next();
 }
 
-
 export const config = {
-    matcher: ["/home", '/profile', '/ong', '/vaga', '/form']
+    matcher: ['/', '/home', '/profile', '/ong', '/vaga', '/form'],
 }
