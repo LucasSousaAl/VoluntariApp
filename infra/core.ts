@@ -8,7 +8,7 @@ export interface CorsOptions {
 
 export function cors(req: NextApiRequest, res: NextApiResponse, options: CorsOptions = {}): boolean {
   const {
-    origin = '*',
+    origin = 'https://voluntari-app-two.vercel.app',
     methods = 'GET, POST, PUT, DELETE, OPTIONS',
     headers = 'Content-Type, Authorization',
   } = options
