@@ -842,9 +842,12 @@ profile-card-mini__content {
 }
 
 /* ── Mobile adjustments for profile-grid offline ── */
-@media (min-width: 768px) {
-  .vaga-detail-grid {
-    display: block;
+@media (max-width: 768px) {
+  .profile-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .profile-card {
+    position: static;
   }
 }
-/* ── Tablet/Desktop (≥ 992px) ── */
