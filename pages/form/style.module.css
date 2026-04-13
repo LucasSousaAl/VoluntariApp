@@ -1,0 +1,335 @@
+/* ── Form Page — Mobile First ────────────────────────────── */
+
+/* ── Layout ── */
+.form_page {
+  padding: 16px 16px 32px;
+}
+
+/* ── Steps ── */
+.form_steps {
+  max-width: 560px;
+  margin: 0 auto 24px;
+}
+
+/* ── Card ── */
+.form_card {
+  background: var(--white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+}
+
+/* ── Typography ── */
+.form_heading {
+  font-size: 18px;
+  margin-bottom: 6px;
+}
+
+.form_subtitle {
+  font-size: 13px;
+  margin-bottom: 28px;
+}
+
+/* ── Form Body ── */
+.form_body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Form Controls ── */
+.form_group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form_label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gray-600);
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
+
+.form_label__required {
+  color: var(--green-600);
+}
+
+/* ── Chip ── */
+.chip_group {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* ── Grid (Step 2) ── */
+.details_grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* ── Actions ── */
+.form_actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 24px;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+/* ── Review Box ── */
+.review_box {
+  background: var(--cream);
+  padding: 16px;
+  border-radius: var(--radius-sm);
+}
+
+/* ── Ant Design Overrides (scoped) ────────────────────────── */
+
+/* Steps — icons */
+.form_steps :global(.ant-steps-item-process .ant-steps-item-icon),
+.form_steps :global(.ant-steps-item-finish .ant-steps-item-icon) {
+  background: var(--green-700) !important;
+  border-color: var(--green-700) !important;
+}
+
+.form_steps :global(.ant-steps-item-process .ant-steps-item-icon),
+.form_steps :global(.ant-steps-item-finish .ant-steps-item-icon) {
+  color: white !important;
+}
+
+.form_steps :global(.ant-steps-item-process .ant-steps-item-icon) {
+  box-shadow: 0 0 0 4px var(--green-100);
+}
+
+
+
+/* Steps — progress rail/tail lines */
+.form_steps :global(.ant-steps-item-finish > .ant-steps-item-container > .ant-steps-item-tail::after) {
+  background: var(--green-500) !important;
+}
+
+.form_steps :global(.ant-steps-item-rail-process),
+.form_steps :global(.ant-steps-item-rail-finish) {
+  border-color: var(--green-500) !important;
+}
+
+/* Steps — titles */
+.form_steps :global(.ant-steps-item-process .ant-steps-item-title) {
+  color: var(--green-700) !important;
+  font-weight: 600 !important;
+}
+
+.form_steps :global(.ant-steps-item-finish .ant-steps-item-title) {
+  color: var(--gray-600) !important;
+}
+
+.form_steps :global(.ant-steps-item-title) {
+  font-size: 12px !important;
+  font-weight: 500;
+}
+
+/* Card — compound selector (same element has both classes) */
+.form_card:global(.ant-card) {
+  box-shadow: var(--shadow-sm) !important;
+  border-radius: var(--radius) !important;
+  background: var(--white) !important;
+}
+
+.form_card :global(.ant-card-body) {
+  padding: 20px !important;
+}
+
+/* Input — compound selector: className goes on the <input> element itself */
+.form_input:global(.ant-input) {
+  width: 100% !important;
+  padding: 14px 16px !important;
+  background: var(--cream) !important;
+  border: 1.5px solid var(--gray-200) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 15px !important;
+  color: var(--gray-800) !important;
+  font-family: inherit !important;
+  height: auto !important;
+  box-shadow: none !important;
+}
+
+
+.form_input:global(.ant-input:hover) {
+  border-color: var(--green-500) !important;
+  background: var(--white) !important;
+  box-shadow: none !important;
+}
+
+/* InputNumber — className goes on the wrapper div */
+.form_input:global(.ant-input-number) {
+  width: 100% !important;
+  padding: 6px 8px !important;
+  background: var(--cream) !important;
+  border: 1.5px solid var(--gray-200) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 15px !important;
+  color: var(--gray-800) !important;
+  font-family: inherit !important;
+  height: auto !important;
+  box-shadow: none !important;
+}
+
+.form_input:global(.ant-input-number:hover),
+.form_input:global(.ant-input-number:focus),
+.form_input:global(.ant-input-number-focused) {
+  border-color: var(--green-500) !important;
+  background: var(--white) !important;
+  box-shadow: none !important;
+}
+
+.form_input:global(.ant-input-number) :global(.ant-input-number-input) {
+  padding: 8px !important;
+  height: auto !important;
+  font-size: 15px !important;
+}
+
+/* TextArea — compound selector: className goes directly on <textarea> */
+.form_textarea:global(.ant-input) {
+  width: 100% !important;
+  padding: 14px 16px !important;
+  min-height: 100px !important;
+  background: var(--cream) !important;
+  border: 1.5px solid var(--gray-200) !important;
+  border-radius: var(--radius-sm) !important;
+  font-size: 15px !important;
+  color: var(--gray-800) !important;
+  font-family: inherit !important;
+  box-shadow: none !important;
+  resize: vertical !important;
+}
+
+.form_textarea:global(.ant-input:focus),
+.form_textarea:global(.ant-input:hover) {
+  border-color: var(--green-500) !important;
+  background: var(--white) !important;
+  box-shadow: none !important;
+}
+
+/* CheckableTag — compound selector: className goes on the <span> element */
+.chip:global(.ant-tag) {
+  padding: 9px 18px !important;
+  border-radius: 20px !important;
+  border: 1.5px solid var(--gray-200) !important;
+  background: var(--white) !important;
+  color: var(--gray-600) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  cursor: pointer !important;
+  transition: all 0.15s !important;
+  line-height: 1 !important;
+  margin-inline-end: 0 !important;
+}
+
+.chip:global(.ant-tag:hover) {
+  color: var(--green-700) !important;
+}
+
+.chip_active:global(.ant-tag),
+.chip:global(.ant-tag-checkable-checked) {
+  border-color: var(--green-700) !important;
+  background: var(--green-700) !important;
+  color: white !important;
+}
+
+/* Button — primary */
+.btn_primary:global(.ant-btn) {
+  background: var(--green-700) !important;
+  color: white !important;
+  border: none !important;
+  height: auto !important;
+  box-shadow: none !important;
+  border-radius: var(--radius) !important;
+  font-weight: 600 !important;
+  padding: 16px 32px !important;
+  font-size: 15px !important;
+}
+
+.btn_primary:global(.ant-btn:hover) {
+  background: var(--green-800) !important;
+  color: white !important;
+}
+
+/* Button — secondary */
+.btn_secondary:global(.ant-btn) {
+  background: var(--gray-200) !important;
+  color: var(--gray-600) !important;
+  border: none !important;
+  height: auto !important;
+  box-shadow: none !important;
+  border-radius: var(--radius) !important;
+  font-weight: 600 !important;
+  padding: 16px 32px !important;
+  font-size: 15px !important;
+}
+
+.btn_secondary:global(.ant-btn:hover) {
+  background: var(--gray-400) !important;
+  color: var(--gray-800) !important;
+}
+
+/* ── Responsive ───────────────────────────────────────────── */
+
+/* Small phones — stack buttons vertically */
+@media (max-width: 420px) {
+  .form_actions {
+    flex-direction: column-reverse;
+    gap: 10px;
+  }
+
+  .btn_primary:global(.ant-btn),
+  .btn_secondary:global(.ant-btn) {
+    width: 100% !important;
+    padding: 14px 24px !important;
+  }
+}
+
+@media (min-width: 576px) {
+  .form_page {
+    padding: 24px 24px 40px;
+  }
+
+  .form_steps {
+    margin-bottom: 32px;
+  }
+
+  .form_heading {
+    font-size: 22px;
+  }
+
+  .form_subtitle {
+    font-size: 14px;
+  }
+
+  .details_grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .form_card :global(.ant-card-body) {
+    padding: 28px !important;
+  }
+
+  .form_actions {
+    margin-top: 36px;
+  }
+}
+
+@media (min-width: 768px) {
+  .form_page {
+    padding: 40px;
+  }
+
+  .form_steps {
+    margin-bottom: 40px;
+  }
+
+  .form_card :global(.ant-card-body) {
+    padding: 36px !important;
+  }
+}
