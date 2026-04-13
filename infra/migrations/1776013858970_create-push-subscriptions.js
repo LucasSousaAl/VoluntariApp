@@ -4,9 +4,13 @@ exports.shorthands = undefined;
 
 exports.up = (pgm) => {
   pgm.createTable('push_subscriptions', {
-    id: { type: 'serial', primaryKey: true },
+    id: {
+      type: "varchar(21)",
+      primaryKey: true,
+      default: pgm.func("generate_nanoid()")
+    },
     usuario_id: {
-      type: 'integer',
+      type: 'varchar(21)',
       notNull: true,
       references: '"usuarios"',
       onDelete: 'CASCADE',

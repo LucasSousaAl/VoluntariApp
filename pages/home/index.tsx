@@ -72,7 +72,7 @@ export default function HomePage() {
     }, []);
 
     // Normalize string removing accents/special characters for safer comparison
-    const normalizeStr = (str: string | undefined) => 
+    const normalizeStr = (str: string | undefined) =>
         str?.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim() || "";
 
     const filtered = activeCategory === 'Todas'
@@ -90,7 +90,7 @@ export default function HomePage() {
                     {/* ── Main ── */}
                     <main>
                         {/* Hero */}
-                        <div className="card--hero mb-28" style={{ borderRadius: 'var(--radius)' }}>
+                        {/* <div className="card--hero mb-28" style={{ borderRadius: 'var(--radius)' }}>
                             <div className="hero-bg-emoji">🌿</div>
                             <div className="hero-location">
                                 📍 Brasil · atualizadas hoje
@@ -100,7 +100,7 @@ export default function HomePage() {
                             </div>
                             <div className="hero-count">{filtered.length}</div>
                             <div className="hero-label">oportunidades disponíveis</div>
-                        </div>
+                        </div> */}
 
                         {/* Filter pills */}
                         <SectionHeader title="Em destaque" action="Ver todas" />
@@ -145,11 +145,11 @@ export default function HomePage() {
                         {/* History */}
                         <div className="card" style={{ padding: 22 }}>
                             <div className="label-upper mb-16">Histórico recente</div>
-                            
+
                             <div style={{ textAlign: 'center', padding: '20px 0', color: 'var(--gray-500)', fontSize: 13 }}>
                                 Nenhuma atividade de voluntariado registrada recentemente.
                             </div>
-                            
+
                             <Link href="/profile" style={{ display: 'block', marginTop: '16px' }}>
                                 <Button type="default" block style={{ borderColor: 'var(--green-300)', color: 'var(--green-700)' }}>
                                     Ver perfil completo →

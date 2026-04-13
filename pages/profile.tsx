@@ -115,11 +115,17 @@ export default function ProfilePage() {
                 const res = await fetch('/api/v1/auth/me'); // Just pulling session user context as standard for now
                 if (!res.ok) throw new Error(`${res.status} ${res.statusText}`);
                 const sessionData = await res.json();
-
+                const formatInitials = (name: string) => {
+                    const nameParts = name.split(" ")
+                        .filter(palavra => palavra.length > 2)
+                        .map(palavra => palavra[0].toUpperCase())
+                        .join("");
+                    return nameParts;
+                }
                 // Assuming we use user session defaults until volunteer API route handles specific info
                 const volunteerInSession = {
                     name: sessionData.nome || "Voluntário",
-                    initials: "VL",
+                    initials: sessionData.nome ? formatInitials(sessionData.nome) : "VL",
                     city: sessionData.city || 'São Paulo',
                     state: sessionData.state || 'SP',
                     memberSince: sessionData.memberSince || 2023,
@@ -199,10 +205,10 @@ export default function ProfilePage() {
                             📍 {voluntario.city}, {voluntario.state}
                         </div>
                         <div className="profile-card-mini__badge mb-24">
-                            Voluntária desde {voluntario.memberSince}
+                            Voluntário/a desde {new Date(voluntario.memberSince).toLocaleString('pt-BR', { month: 'long', year: 'numeric' })}
                         </div>
 
-                        <div style={{ display: 'flex', gap: 8, marginBottom: 16 }}>
+                        <div style={{ display: 'flex', gap: 8, marginBottom: 16, justifyContent: 'center' }}>
                             <button
                                 className="btn btn--outline btn--sm"
                                 style={{ borderColor: 'rgba(255,255,255,0.4)', color: 'white' }}

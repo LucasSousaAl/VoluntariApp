@@ -1,8 +1,9 @@
 import { NextApiRequest, NextApiResponse } from 'next';
 import pgMigrations from 'node-pg-migrate';
 import { join } from 'node:path';
+import { withRole } from 'infra/middleware';
 
-export default async function migrations(req: NextApiRequest, res: NextApiResponse) {
+async function migrations(req: NextApiRequest, res: NextApiResponse) {
   try {
     const migrationResults = await pgMigrations({
       databaseUrl: process.env.DATABASE_URL,
@@ -17,3 +18,5 @@ export default async function migrations(req: NextApiRequest, res: NextApiRespon
     return res.status(500).json({ error: error.message });
   }
 }
+
+export default withRole("admin")(migrations);
