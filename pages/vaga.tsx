@@ -5,7 +5,7 @@ import { useApp } from '../context/AppContext';
 import { vagas } from '../data';
 import { CategoryTag, ModalityTag } from '../components/UI';
 import { Navbar } from '../components/Navbar';
-import { Spin, message } from 'antd';
+import { Spin, message, Button } from 'antd';
 import { useState, useEffect } from 'react';
 import { Vaga, Category } from '../models/types';
 
@@ -85,7 +85,29 @@ export default function VagaPage() {
             setApplying(false);
         }
     };
+    // 🔗 FUNÇÃO DE COMPARTILHAR VAGA
+    const shareVaga = async (e: React.MouseEvent): Promise<void> => {
+        e.stopPropagation();
 
+        const url = `${window.location.origin}/vaga?id=${vaga.id}`;
+
+        if (navigator.share) {
+            try {
+                await navigator.share({
+                    title: vaga.title,
+                    text: `Confira esta vaga de voluntariado na ${vaga.ong}: ${vaga.title}\n\nVeja mais detalhes em: ${url}`,
+                    url: url,
+                });
+            } catch (error) {
+                message.error("Erro ao compartilhar!");
+                console.error("Erro ao compartilhar:", error);
+            }
+        } else {
+            // fallback caso o navegador não suporte
+            navigator.clipboard.writeText(url);
+            message.success('Link da vaga copiado para a área de transferência!');
+        }
+    };
     return (
         <>
             <Navbar />
@@ -171,8 +193,8 @@ export default function VagaPage() {
                                 {vaga.totalSlots - vaga.filledSlots} vagas disponíveis · Resposta em até 48h
                             </div>
 
-                            <button 
-                                className={`btn btn--primary btn--full mb-12 ${applying ? 'loading' : ''}`} 
+                            <button
+                                className={`btn btn--primary btn--full mb-12 ${applying ? 'loading' : ''}`}
                                 style={{ padding: 16, fontSize: 15 }}
                                 onClick={handleApply}
                                 disabled={applying}
@@ -180,19 +202,26 @@ export default function VagaPage() {
                                 {applying ? <Spin /> : 'Quero me voluntariar →'}
                             </button>
 
-                            <button className="btn btn--outline btn--full" style={{ padding: 14, fontSize: 14, fontWeight: 600 }}>
+                            {/*  <button className="btn btn--outline btn--full" style={{ padding: 14, fontSize: 14, fontWeight: 600 }}>
                                 💬 Enviar mensagem
-                            </button>
+                            </button> */}
 
-                            <div className="flex gap-8 mt-16">
-                                {['🔗 Compartilhar', '⭐ Salvar'].map(btn => (
+                            <div className="mt-16 ">
+                                {/* {['🔗 Compartilhar' , '⭐ Salvar' ].map(btn => (
                                     <button key={btn} className="btn btn--secondary" style={{
                                         flex: 1, padding: 10, borderRadius: 'var(--radius-sm)',
                                         fontSize: 12,
                                     }}>
                                         {btn}
                                     </button>
-                                ))}
+                                ))} */}
+                                <Button
+                                    className="btn btn--secondary btn--full lg"
+                                    onClick={shareVaga}
+                                >
+                                    🔗 Compartilhar
+                                </Button>
+
                             </div>
                         </div>
 

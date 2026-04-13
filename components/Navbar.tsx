@@ -7,6 +7,7 @@ import { useApp } from '../context/AppContext';
 import { Avatar } from './UI';
 import { voluntario } from '../data';
 import styles from './Navbar.module.css';
+import { clearCachedProfileData } from 'lib/offlineStorage';
 
 const navItems = [
     { href: '/home', label: 'Home' },
@@ -24,6 +25,7 @@ export const Navbar = () => {
         try {
             await fetch('/api/v1/auth/logout', { method: 'POST' });
             setCurrentUserRole('guest');
+            clearCachedProfileData();
             // reset specific states if necessary, or just force route
             message.success('Você saiu com sucesso, volte sempre!');
             router.push('/login');

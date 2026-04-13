@@ -24,6 +24,7 @@ export const VagaCard = ({ vaga }: VagaCardProps) => {
   const handleView = () => {
     setSelectedVaga(vaga);
     router.push(`/vaga?id=${vaga.id}`);
+
   };
 
   return (
@@ -57,6 +58,7 @@ export const VagaCard = ({ vaga }: VagaCardProps) => {
         <span style={{ fontSize: 13, color: 'var(--gray-600)', display: 'flex', alignItems: 'center', gap: 5 }}>
           👥 {vaga.totalSlots - vaga.filledSlots} vagas restantes
         </span>
+
         <Button
           variant="primary"
           size="sm"

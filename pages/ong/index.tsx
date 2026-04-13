@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
-import { useApp } from '../context/AppContext';
-import { ong } from '../data';
-import { VagaStatus, Category, Vaga } from '../models/types';
-import { StatusBadge, ProgressBar } from '../components/UI';
-import { Navbar } from '../components/Navbar';
+import { useApp } from '../../context/AppContext';
+import { ong } from '../../data';
+import { VagaStatus, Category, Vaga } from '../../models/types';
+import { StatusBadge, ProgressBar } from '../../components/UI';
+import { Navbar } from '../../components/Navbar';
 import { Spin, message, Modal, Form, Input, InputNumber, Select, Popconfirm } from 'antd';
+import styles from './style.module.css';
 
 const { TextArea } = Input;
 const { Option } = Select;
@@ -14,7 +15,7 @@ export default function ONGPage() {
     const router = useRouter();
     const { setSelectedVaga, currentUserRole, currentUser } = useApp();
     const [activeTab, setActiveTab] = useState<VagaStatus | 'Todas'>('Todas');
-    const [ongData, setOngData] = useState<any>(null); // TODO: Type this properly to match DB ONG model
+    const [ongData, setOngData] = useState<any>(null);
     const [ongVagas, setOngVagas] = useState<Vaga[]>([]);
     const [loading, setLoading] = useState(true);
 
@@ -22,8 +23,8 @@ export default function ONGPage() {
     const [isEditModalVisible, setIsEditModalVisible] = useState(false);
     const [editingVaga, setEditingVaga] = useState<Vaga | null>(null);
     const [form] = Form.useForm();
-    
-    // Add ONG Edit states
+
+    // ONG Edit states
     const [isEditOngModalVisible, setIsEditOngModalVisible] = useState(false);
     const [ongForm] = Form.useForm();
 
@@ -33,24 +34,21 @@ export default function ONGPage() {
         const fetchOngData = async () => {
             if (!currentUser) return;
             try {
-                // Fetch the ONG Details. Since we are logged in, we should normally fetch the current ONG
                 const response = await fetch('/api/v1/ong');
                 const data = await response.json();
-                
+
                 if (response.ok && data.length > 0) {
-                    // Strictly match logged in ONG user
-                    const currentOng = currentUser && currentUser.email 
+                    const currentOng = currentUser && currentUser.email
                         ? data.find((o: any) => o.email === currentUser.email)
                         : null;
 
                     if (!currentOng) {
                         if (isMounted) setLoading(false);
-                        return; // No valid ONG Profile found for this user
+                        return;
                     }
 
-                    if (isMounted) setOngData(currentOng); 
+                    if (isMounted) setOngData(currentOng);
 
-                    // Fetch Works (Trabalhos) specific to this ONG
                     const workResponse = await fetch(`/api/v1/trabalho?ong_id=${currentOng.id}`);
                     const workData = await workResponse.json();
 
@@ -100,7 +98,6 @@ export default function ONGPage() {
             const response = await fetch(`/api/v1/ong?id=${ongData.id}`, { method: 'DELETE' });
             if (response.ok) {
                 message.success('ONG deletada com sucesso!');
-                // Wait briefly then push home
                 setTimeout(() => router.push('/Home'), 1500);
             } else {
                 message.error('Erro ao deletar perfil da ONG.');
@@ -198,10 +195,9 @@ export default function ONGPage() {
 
             if (response.ok) {
                 message.success('Vaga atualizada com sucesso!');
-                // Update local state smoothly
-                setOngVagas(prev => prev.map(v => v.id === editingVaga.id ? { 
-                    ...v, 
-                    title: values.title, 
+                setOngVagas(prev => prev.map(v => v.id === editingVaga.id ? {
+                    ...v,
+                    title: values.title,
                     description: values.description,
                     totalSlots: values.totalSlots,
                     category: values.category,
@@ -215,7 +211,7 @@ export default function ONGPage() {
                 message.error('Erro ao atualizar vaga.');
             }
         } catch (error) {
-             message.error('Erro de conexão ao tentar atualizar.');
+            message.error('Erro de conexão ao tentar atualizar.');
         }
     };
 
@@ -234,18 +230,18 @@ export default function ONGPage() {
             <div className="container container--wide">
 
                 {/* Header */}
-                <div className="card--hero mb-28 flex items-center justify-between" style={{ borderRadius: 'var(--radius)', padding: 32 }}>
-                    <div className="ong-header-content">
-                        <div className="ong-header-avatar">
+                <div className={`card--hero mb-28 ${styles.ong_header}`}>
+                    <div className={styles.ong_header_content}>
+                        <div className={styles.ong_header_avatar}>
                             {ongData.nome?.charAt(0)}
                         </div>
-                        <div style={{ flex: 1 }}>
-                            <div className="flex justify-between items-start">
-                                <h1 className="heading-serif mb-4" style={{ fontSize: 24 }}>
+                        <div className={styles.ong_header_info}>
+                            <div className={styles.ong_header_top}>
+                                <h1 className={`heading-serif mb-4 ${styles.ong_heading}`}>
                                     {ongData.nome}
                                 </h1>
                                 {isOwnerOrAdmin && (
-                                    <div className="flex gap-10">
+                                    <div className={styles.ong_header_actions}>
                                         <button onClick={showEditOngModal} className="btn btn--outline btn--sm">Editar Perfil</button>
                                         <Popconfirm
                                             title="Tem certeza que deseja deletar a ONG?"
@@ -253,38 +249,40 @@ export default function ONGPage() {
                                             okText="Sim"
                                             cancelText="Não"
                                         >
-                                            <button className="btn btn--outline btn--sm" style={{ borderColor: 'var(--red-400)', color: 'var(--red-500)' }}>Excluir ONG</button>
+                                            <button className={`btn btn--outline btn--sm ${styles.btn_danger}`}>Excluir ONG</button>
                                         </Popconfirm>
                                     </div>
                                 )}
                             </div>
-                            <p style={{ color: 'var(--gray-500)', fontSize: 15, marginBottom: 0 }}>
+                            <p className={styles.ong_header_subtitle}>
                                 {ongData.localidade} · {ongData.email} · {ongData.telefone}
                             </p>
                         </div>
                     </div>
-                    <div className="flex gap-20">
+                    <div className={styles.ong_stats}>
                         {[{ num: ongVagas.length, label: 'Vagas ativas' }, { num: ong.totalVolunteers, label: 'Voluntários' }].map(s => (
-                            <div key={s.label} className="ong-header-stat">
-                                <div className="ong-header-stat__number">{s.num}</div>
-                                <div className="ong-header-stat__label">{s.label}</div>
+                            <div key={s.label} className={styles.ong_stat}>
+                                <div className={styles.ong_stat_number}>{s.num}</div>
+                                <div className={styles.ong_stat_label}>{s.label}</div>
                             </div>
                         ))}
                     </div>
                 </div>
 
                 {/* Toolbar */}
-                <div className="flex justify-between items-center mb-20">
-                    <div className="tab-bar">
-                        {(['Todas', 'Ativa', 'Pausada', 'Rascunho'] as const).map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab)}
-                                className={`tab-bar__btn${activeTab === tab ? ' tab-bar__btn--active' : ''}`}
-                            >
-                                {tab}
-                            </button>
-                        ))}
+                <div className={styles.ong_toolbar}>
+                    <div className={styles.ong_tab_bar}>
+                        <div className={styles.ong_tab_bar_inner}>
+                            {(['Todas', 'Ativa'/* , 'Pausada', 'Rascunho' */] as const).map(tab => (
+                                <button
+                                    key={tab}
+                                    onClick={() => setActiveTab(tab)}
+                                    className={`${styles.ong_tab_btn}${activeTab === tab ? ` ${styles.ong_tab_btn_active}` : ''}`}
+                                >
+                                    {tab}
+                                </button>
+                            ))}
+                        </div>
                     </div>
                     {isOwnerOrAdmin && (
                         <button
@@ -298,28 +296,30 @@ export default function ONGPage() {
 
                 {/* Vaga rows */}
                 {filtered.length === 0 ? (
-                    <div style={{ textAlign: 'center', padding: '40px 0', color: 'var(--gray-500)' }}>
+                    <div className={styles.ong_empty}>
                         Esta ONG ainda não criou nenhuma vaga no Banco de Dados.
                     </div>
                 ) : (
                     filtered.map(vaga => (
-                        <div key={vaga.id} className="ong-row">
-                            <div className="ong-row__icon">{vaga.icon}</div>
-                            <StatusBadge status={vaga.status} />
-                            <div style={{ flex: 1 }}>
-                                <div className="heading-serif mb-4" style={{ fontSize: 17 }}>
-                                    {vaga.title}
-                                </div>
-                                <div className="ong-row__info">
-                                    <span>📅 {vaga.availability}</span>
-                                    <span>⏱ {vaga.hoursPerWeek}/semana</span>
-                                    <span>📍 {vaga.modality}</span>
+                        <div key={vaga.id} className={styles.ong_row}>
+                            <div className={styles.ong_row_top}>
+                                <div className={styles.ong_row_icon}>{vaga.icon}</div>
+                                <StatusBadge status={vaga.status} />
+                                <div className={styles.ong_row_main}>
+                                    <div className={`heading-serif ${styles.ong_row_title}`}>
+                                        {vaga.title}
+                                    </div>
+                                    <div className={styles.ong_row_info}>
+                                        <span>📅 {vaga.availability}</span>
+                                        <span>⏱ {vaga.hoursPerWeek}/semana</span>
+                                        <span>📍 {vaga.modality}</span>
+                                    </div>
                                 </div>
                             </div>
 
                             <ProgressBar value={vaga.filledSlots} max={vaga.totalSlots} />
 
-                            <div className="flex gap-8 flex-shrink-0">
+                            <div className={styles.ong_row_actions}>
                                 {isOwnerOrAdmin && (
                                     <>
                                         <button onClick={() => showEditModal(vaga)} className="btn btn--outline btn--sm">
@@ -331,7 +331,7 @@ export default function ONGPage() {
                                             okText="Sim"
                                             cancelText="Não"
                                         >
-                                            <button className="btn btn--outline btn--sm" style={{ borderColor: 'var(--red-400)', color: 'var(--red-500)' }}>
+                                            <button className={`btn btn--outline btn--sm ${styles.btn_danger}`}>
                                                 Deletar
                                             </button>
                                         </Popconfirm>
@@ -349,69 +349,73 @@ export default function ONGPage() {
                 )}
 
                 {/* Add button */}
-                {isOwnerOrAdmin && (
+                {/* {isOwnerOrAdmin && (
                     <button onClick={() => router.push('/form')} className="btn--dashed">
                         + Criar nova vaga
                     </button>
-                )}
+                )} */}
 
-                {/* Edit Modal */}
-                <Modal
-                    title="Editar Vaga"
-                    open={isEditModalVisible}
-                    onCancel={() => { setIsEditModalVisible(false); setEditingVaga(null); }}
-                    onOk={() => form.submit()}
-                    okText="Salvar Alterações"
-                    cancelText="Cancelar"
-                >
-                    <Form form={form} layout="vertical" onFinish={handleEditComplete}>
-                        <Form.Item name="title" label="Título da Vaga" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="description" label="Descrição" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <TextArea rows={4} />
-                        </Form.Item>
-                        <Form.Item name="totalSlots" label="Número de vagas (Total)" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <InputNumber min={1} style={{ width: '100%' }} />
-                        </Form.Item>
-                        <Form.Item name="category" label="Categoria" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Select>
-                                <Option value="Educação">Educação</Option>
-                                <Option value="Saúde">Saúde</Option>
-                                <Option value="Meio Ambiente">Meio Ambiente</Option>
-                                <Option value="Social">Social</Option>
-                            </Select>
-                        </Form.Item>
-                        <Form.Item name="availability" label="Disponibilidade" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input placeholder="Ex: Segunda a Sexta, Fins de semana" />
-                        </Form.Item>
-                        <Form.Item name="hoursPerWeek" label="Carga horária" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input placeholder="Ex: 5h/semana" />
-                        </Form.Item>
-                    </Form>
-                </Modal>
+                {/* Edit Vaga Modal */}
+                <div className={styles.ong_modal}>
+                    <Modal
+                        title="Editar Vaga"
+                        open={isEditModalVisible}
+                        onCancel={() => { setIsEditModalVisible(false); setEditingVaga(null); }}
+                        onOk={() => form.submit()}
+                        okText="Salvar Alterações"
+                        cancelText="Cancelar"
+                    >
+                        <Form form={form} layout="vertical" onFinish={handleEditComplete}>
+                            <Form.Item name="title" label="Título da Vaga" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="description" label="Descrição" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <TextArea rows={4} />
+                            </Form.Item>
+                            <Form.Item name="totalSlots" label="Número de vagas (Total)" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <InputNumber min={1} style={{ width: '100%' }} />
+                            </Form.Item>
+                            <Form.Item name="category" label="Categoria" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Select>
+                                    <Option value="Educação">Educação</Option>
+                                    <Option value="Saúde">Saúde</Option>
+                                    <Option value="Meio Ambiente">Meio Ambiente</Option>
+                                    <Option value="Social">Social</Option>
+                                </Select>
+                            </Form.Item>
+                            <Form.Item name="availability" label="Disponibilidade" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input placeholder="Ex: Segunda a Sexta, Fins de semana" />
+                            </Form.Item>
+                            <Form.Item name="hoursPerWeek" label="Carga horária" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input placeholder="Ex: 5h/semana" />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                </div>
 
                 {/* Edit ONG Modal */}
-                <Modal
-                    title="Editar Perfil da ONG"
-                    open={isEditOngModalVisible}
-                    onCancel={() => setIsEditOngModalVisible(false)}
-                    onOk={() => ongForm.submit()}
-                    okText="Salvar Alterações"
-                    cancelText="Cancelar"
-                >
-                    <Form form={ongForm} layout="vertical" onFinish={handleEditOngComplete}>
-                        <Form.Item name="nome" label="Nome da ONG" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="localidade" label="Localidade" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input />
-                        </Form.Item>
-                        <Form.Item name="telefone" label="Telefone" rules={[{ required: true, message: 'Campo obrigatório' }]}>
-                            <Input />
-                        </Form.Item>
-                    </Form>
-                </Modal>
+                <div className={styles.ong_modal}>
+                    <Modal
+                        title="Editar Perfil da ONG"
+                        open={isEditOngModalVisible}
+                        onCancel={() => setIsEditOngModalVisible(false)}
+                        onOk={() => ongForm.submit()}
+                        okText="Salvar Alterações"
+                        cancelText="Cancelar"
+                    >
+                        <Form form={ongForm} layout="vertical" onFinish={handleEditOngComplete}>
+                            <Form.Item name="nome" label="Nome da ONG" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="localidade" label="Localidade" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input />
+                            </Form.Item>
+                            <Form.Item name="telefone" label="Telefone" rules={[{ required: true, message: 'Campo obrigatório' }]}>
+                                <Input />
+                            </Form.Item>
+                        </Form>
+                    </Modal>
+                </div>
             </div>
         </div>
     );

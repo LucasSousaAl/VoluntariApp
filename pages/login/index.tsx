@@ -8,7 +8,7 @@ import { cacheProfileData } from 'lib/offlineStorage';
 
 export default function LoginPage() {
     const router = useRouter();
-    const { userType, setUserType, setCurrentUserRole } = useApp();
+    const { userType, setUserType, setCurrentUserRole, setCurrentUser } = useApp();
     const [loading, setLoading] = useState(false);
 
     const onFinish = async (values: any) => {
@@ -32,6 +32,7 @@ export default function LoginPage() {
             message.success('Login bem-sucedido!');
             // Set AppContext state using the actual JWT extracted user Role
             setCurrentUserRole(data.user.role as any);
+            setCurrentUser(data.user);
 
             // Redirect correctly based on the role the db returned to us
             if (data.user.role === 'ong' || data.user.role === 'admin') {
