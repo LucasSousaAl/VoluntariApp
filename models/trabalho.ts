@@ -1,7 +1,7 @@
 import database from 'infra/database';
 
 export interface Trabalho {
-  id: number;
+  id: string;
   ong_id: number;
   titulo: string;
   descricao: string;
@@ -30,7 +30,7 @@ export async function list(): Promise<Trabalho[]> {
   });
 }
 
-export async function findById(id: number): Promise<Trabalho | null> {
+export async function findById(id: string): Promise<Trabalho | null> {
   const result = await database.query<Trabalho>({
     text: `${BASE_QUERY} WHERE t.id = $1`,
     values: [id],
@@ -38,7 +38,7 @@ export async function findById(id: number): Promise<Trabalho | null> {
   return result[0] || null;
 }
 
-export async function findByOngId(ongId: number): Promise<Trabalho[]> {
+export async function findByOngId(ongId: string): Promise<Trabalho[]> {
   return database.query<Trabalho>({
     text: `${BASE_QUERY} WHERE t.ong_id = $1 ORDER BY t.criado_em DESC`,
     values: [ongId],
@@ -74,7 +74,7 @@ export async function update(
   return result[0] || null;
 }
 
-export async function remove(id: number): Promise<Trabalho | null> {
+export async function remove(id: string): Promise<Trabalho | null> {
   const result = await database.query<Trabalho>({
     text: 'DELETE FROM trabalhos WHERE id = $1 RETURNING *',
     values: [id],

@@ -38,7 +38,7 @@ export async function update(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const updated = await OngModel.update(Number(id), { nome, localidade, telefone });
+    const updated = await OngModel.update(String(id), { nome, localidade, telefone });
     if (!updated) return res.status(404).json({ error: 'ONG não encontrada.' });
     return res.status(200).json(updated);
   } catch (error) {
@@ -53,7 +53,7 @@ export async function remove(req: NextApiRequest, res: NextApiResponse) {
   if (!id) return res.status(400).json({ error: 'ID da ONG é obrigatório para deletar.' });
 
   try {
-    const deleted = await OngModel.remove(Number(id));
+    const deleted = await OngModel.remove(String(id));
     if (!deleted) return res.status(404).json({ error: 'ONG não encontrada.' });
     return res.status(200).json({ message: 'ONG removida com sucesso.' });
   } catch (error) {

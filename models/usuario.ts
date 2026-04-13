@@ -1,7 +1,7 @@
 import database from 'infra/database';
 
 export interface User {
-  id: number;
+  id: string;
   nome: string;
   email: string;
   password?: string;
@@ -25,7 +25,7 @@ export async function findByEmail(email: string): Promise<User | null> {
   return result[0] || null;
 }
 
-export async function findById(id: number): Promise<User | null> {
+export async function findById(id: string): Promise<User | null> {
   const result = await database.query<User>({
     text: `
       SELECT id, nome, initials, email, city, state,
@@ -78,7 +78,7 @@ export async function create(user: Omit<User, 'id' | 'createdAt'>): Promise<User
 }
 
 export async function update(
-  id: number,
+  id: string,
   data: Pick<User, 'nome' | 'city' | 'state' | 'interestArea' | 'availability' | 'modality'>
 ): Promise<User | null> {
   const result = await database.query<User>({

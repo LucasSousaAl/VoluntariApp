@@ -8,13 +8,13 @@ export async function list(req: NextApiRequest, res: NextApiResponse) {
 
   try {
     if (id) {
-      const trabalho = await TrabalhoModel.findById(Number(id));
+      const trabalho = await TrabalhoModel.findById(String(id));
       if (!trabalho) return res.status(404).json({ error: 'Vaga não encontrada.' });
       return res.status(200).json(trabalho);
     }
 
     if (ong_id) {
-      const trabalhos = await TrabalhoModel.findByOngId(Number(ong_id));
+      const trabalhos = await TrabalhoModel.findByOngId(String(ong_id));
       return res.status(200).json(trabalhos);
     }
 
@@ -61,7 +61,7 @@ export async function update(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const updated = await TrabalhoModel.update(Number(id), { titulo, descricao, n_vagas, categoria, disponibilidade, carga_horaria });
+    const updated = await TrabalhoModel.update(id, { titulo, descricao, n_vagas, categoria, disponibilidade, carga_horaria });
     if (!updated) return res.status(404).json({ error: 'Vaga não encontrada ou ID inválido.' });
     return res.status(200).json(updated);
   } catch (error) {
@@ -76,7 +76,7 @@ export async function remove(req: NextApiRequest, res: NextApiResponse) {
   if (!id) return res.status(400).json({ error: 'ID da vaga é obrigatório para deletar.' });
 
   try {
-    const deleted = await TrabalhoModel.remove(Number(id));
+    const deleted = await TrabalhoModel.remove(String(id));
     if (!deleted) return res.status(404).json({ error: 'Vaga não encontrada ou ID inválido.' });
     return res.status(200).json({ message: 'Vaga removida com sucesso.', deleted });
   } catch (error) {
@@ -97,7 +97,7 @@ export async function apply(req: NextApiRequest, res: NextApiResponse) {
   if (!trabalho_id) return res.status(400).json({ error: 'O ID da vaga é obrigatório.' });
 
   try {
-    const workExists = await TrabalhoModel.findById(Number(trabalho_id));
+    const workExists = await TrabalhoModel.findById(trabalho_id);
     if (!workExists) return res.status(404).json({ error: 'Vaga não encontrada.' });
 
     await database.query({

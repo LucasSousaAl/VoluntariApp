@@ -17,7 +17,7 @@ export async function me(req: NextApiRequest, res: NextApiResponse) {
   const decoded = req.user;
 
   try {
-    const user = await UsuarioModel.findById(Number(decoded.id));
+    const user = await UsuarioModel.findById(decoded.id);
     if (!user) return res.status(404).json({ error: 'Usuário não encontrado' });
 
     const historico = await database.query<any>({
@@ -42,9 +42,9 @@ export async function me(req: NextApiRequest, res: NextApiResponse) {
       category: h.categoria,
       icon:
         h.categoria === 'Educação' ? '📚'
-        : h.categoria === 'Saúde' ? '💚'
-        : h.categoria === 'Meio Ambiente' ? '🌱'
-        : '🤝',
+          : h.categoria === 'Saúde' ? '💚'
+            : h.categoria === 'Meio Ambiente' ? '🌱'
+              : '🤝',
     }));
 
     const totalHours = historicoFormatted.reduce((acc: number, h: any) => acc + (h.hours || 0), 0);
@@ -66,7 +66,7 @@ export async function updateMe(req: NextApiRequest, res: NextApiResponse) {
   }
 
   try {
-    const updated = await UsuarioModel.update(Number(decoded.id), { nome, city, state, interestArea, availability, modality });
+    const updated = await UsuarioModel.update(decoded.id, { nome, city, state, interestArea, availability, modality });
     if (!updated) return res.status(404).json({ error: 'Usuário não encontrado' });
     return res.status(200).json(updated);
   } catch (error) {

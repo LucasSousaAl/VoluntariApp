@@ -1,7 +1,7 @@
 import database from 'infra/database';
 
 export interface Ong {
-  id: number;
+  id: string;
   nome: string;
   localidade: string;
   email: string;
@@ -15,7 +15,7 @@ export async function list(): Promise<Ong[]> {
   });
 }
 
-export async function findById(id: number): Promise<Ong | null> {
+export async function findById(id: string): Promise<Ong | null> {
   const result = await database.query<Ong>({
     text: 'SELECT id, nome, localidade, email, telefone, criado_em FROM ongs WHERE id = $1',
     values: [id],
@@ -36,7 +36,7 @@ export async function create(data: Omit<Ong, 'id' | 'criado_em'>): Promise<Ong> 
 }
 
 export async function update(
-  id: number,
+  id: string,
   data: Pick<Ong, 'nome' | 'localidade' | 'telefone'>
 ): Promise<Ong | null> {
   const result = await database.query<Ong>({
@@ -51,7 +51,7 @@ export async function update(
   return result[0] || null;
 }
 
-export async function remove(id: number): Promise<Ong | null> {
+export async function remove(id: string): Promise<Ong | null> {
   const result = await database.query<Ong>({
     text: 'DELETE FROM ongs WHERE id = $1 RETURNING id',
     values: [id],
