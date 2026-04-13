@@ -844,17 +844,7 @@ profile-card-mini__content {
 /* ── Mobile adjustments for profile-grid offline ── */
 @media (min-width: 768px) {
   .vaga-detail-grid {
-    grid-template-columns: 1fr;
+    display: block;
   }
 }
 /* ── Tablet/Desktop (≥ 992px) ── */
-@media (min-width: 992px) {
-  .home_grid {
-    grid-template-columns: 1fr 320px;
-    align-items: start;
-  }
-
-  .vaga-sidebar {
-    display: flex;
-  }
-}
