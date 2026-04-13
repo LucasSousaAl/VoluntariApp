@@ -1,0 +1,328 @@
+/* ── ONG Page — Mobile First ─────────────────────────────── */
+
+/* ── Header ── */
+.ong_header {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 24px;
+}
+
+.ong_header_content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.ong_header_avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.15);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  font-weight: 700;
+  color: white;
+  flex-shrink: 0;
+}
+
+.ong_header_info {
+  flex: 1;
+  min-width: 0;
+}
+
+.ong_header_top {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.ong_heading {
+  font-size: 20px;
+}
+
+.ong_header_actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ong_header_subtitle {
+  color: var(--gray-500);
+  font-size: 14px;
+  margin-bottom: 0;
+  word-break: break-word;
+}
+
+/* ── Stats ── */
+.ong_stats {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: 100%;
+}
+
+.ong_stat {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: var(--radius-sm);
+  padding: 14px 20px;
+  flex: 1;
+}
+
+.ong_stat_number {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--green-300);
+  line-height: 1;
+}
+
+.ong_stat_label {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  margin-top: 4px;
+}
+
+/* ── Toolbar ── */
+.ong_toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.ong_tab_bar {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.ong_tab_bar_inner {
+  display: flex;
+  gap: 6px;
+  white-space: nowrap;
+}
+
+.ong_tab_btn {
+  padding: 8px 18px;
+  border-radius: 20px;
+  border: 1.5px solid var(--gray-200);
+  background: var(--white);
+  color: var(--gray-600);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.15s;
+  font-family: inherit;
+}
+
+.ong_tab_btn:hover {
+  background: var(--green-50);
+}
+
+.ong_tab_btn_active {
+  background: var(--green-700);
+  color: white;
+  font-weight: 600;
+  border-color: var(--green-700);
+}
+
+/* ── Vaga Rows ── */
+.ong_row {
+  background: var(--white);
+  border-radius: var(--radius);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ong_row_top {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ong_row_icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: var(--tag-edu-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+}
+
+.ong_row_main {
+  flex: 1;
+  min-width: 0;
+}
+
+.ong_row_title {
+  font-size: 17px;
+  margin-bottom: 4px;
+}
+
+.ong_row_info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 13px;
+  color: var(--gray-400);
+}
+
+.ong_row_actions {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.ong_row_actions .btn {
+  flex: 1;
+  min-width: 0;
+}
+
+/* ── Empty state ── */
+.ong_empty {
+  text-align: center;
+  padding: 40px 0;
+  color: var(--gray-500);
+}
+
+/* ── Danger button ── */
+.btn_danger {
+  border-color: #f87171 !important;
+  color: #ef4444 !important;
+}
+
+/* ── Ant Design Modal Overrides ── */
+.ong_modal :global(.ant-modal) {
+  max-width: calc(100vw - 32px);
+}
+
+.ong_modal :global(.ant-modal-header) {
+  border-bottom: 1px solid var(--gray-200);
+}
+
+.ong_modal :global(.ant-btn-primary) {
+  background: var(--green-700);
+  border-color: var(--green-700);
+}
+
+.ong_modal :global(.ant-btn-primary:hover) {
+  background: var(--green-800);
+  border-color: var(--green-800);
+}
+
+/* ── Responsive ─────────────────────────────────────────── */
+
+/* ── 576px: small tablet ── */
+@media (min-width: 576px) {
+  .ong_header {
+    padding: 28px;
+  }
+
+  .ong_header_content {
+    flex-direction: row;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .ong_header_top {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: space-between;
+  }
+
+  .ong_header_actions {
+    justify-content: flex-start;
+  }
+
+  .ong_stats {
+    flex-direction: row;
+  }
+
+  .ong_toolbar {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .ong_row {
+    flex-direction: row;
+    align-items: center;
+    gap: 20px;
+    padding: 22px 24px;
+  }
+
+  .ong_row_top {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .ong_row_info {
+    flex-direction: row;
+    gap: 16px;
+  }
+
+  .ong_row_actions {
+    flex-shrink: 0;
+    flex-wrap: nowrap;
+  }
+
+  .ong_row_actions .btn {
+    flex: none;
+  }
+
+  .ong_header_subtitle {
+    font-size: 15px;
+  }
+}
+
+/* ── 768px: tablet/desktop ── */
+@media (min-width: 768px) {
+  .ong_header {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 32px;
+  }
+
+  .ong_header_avatar {
+    width: 64px;
+    height: 64px;
+    font-size: 28px;
+  }
+
+  .ong_heading {
+    font-size: 24px;
+  }
+
+  .ong_stat_number {
+    font-size: 36px;
+  }
+
+  .ong_stats {
+    width: auto;
+    flex-shrink: 0;
+  }
+}
+
+/* ── 992px: wide desktop ── */
+@media (min-width: 992px) {
+  .ong_header {
+    gap: 32px;
+  }
+}

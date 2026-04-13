@@ -7,7 +7,7 @@ import { useApp } from '../../context/AppContext';
 
 export default function RegisterPage() {
     const router = useRouter();
-    const { userType, setUserType, setCurrentUserRole } = useApp();
+    const { userType, setUserType, setCurrentUserRole, setCurrentUser } = useApp();
     const [loading, setLoading] = useState(false);
 
     const onFinish = async (values: any) => {
@@ -63,6 +63,7 @@ export default function RegisterPage() {
 
             message.success('Cadastro realizado com sucesso!');
             setCurrentUserRole(userType);
+            setCurrentUser(userData.user);
             router.push(userType === 'ong' ? '/ong' : '/home');
 
         } catch (error) {
