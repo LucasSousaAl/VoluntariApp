@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
     const { pathname } = request?.nextUrl || {};
     // sem token → redireciona para login
     if (!token) {
-        return NextResponse.redirect(new URL('/login', request.url));
+        return NextResponse.redirect(new URL('/', request.url));
     }
 
     const decoded = await verifyToken(token)
@@ -25,5 +25,5 @@ export async function middleware(request: NextRequest) {
 
 
 export const config = {
-    matcher: ["/home", '/profile', '/ong', '/vaga', '/form', "/"]
+    matcher: ["/home", '/profile', '/ong', '/vaga', '/form']
 }
