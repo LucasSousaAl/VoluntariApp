@@ -19,4 +19,4 @@ async function migrations(req: NextApiRequest, res: NextApiResponse) {
   }
 }
 
-export default withRole("admin")(migrations);
+export default /* withRole("admin") */(migrations);
