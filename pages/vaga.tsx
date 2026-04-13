@@ -171,8 +171,8 @@ export default function VagaPage() {
                                 {vaga.totalSlots - vaga.filledSlots} vagas disponíveis · Resposta em até 48h
                             </div>
 
-                            <button 
-                                className={`btn btn--primary btn--full mb-12 ${applying ? 'loading' : ''}`} 
+                            <button
+                                className={`btn btn--primary btn--full mb-12 ${applying ? 'loading' : ''}`}
                                 style={{ padding: 16, fontSize: 15 }}
                                 onClick={handleApply}
                                 disabled={applying}
@@ -180,12 +180,12 @@ export default function VagaPage() {
                                 {applying ? <Spin /> : 'Quero me voluntariar →'}
                             </button>
 
-                            <button className="btn btn--outline btn--full" style={{ padding: 14, fontSize: 14, fontWeight: 600 }}>
+                            {/*  <button className="btn btn--outline btn--full" style={{ padding: 14, fontSize: 14, fontWeight: 600 }}>
                                 💬 Enviar mensagem
-                            </button>
+                            </button> */}
 
                             <div className="flex gap-8 mt-16">
-                                {['🔗 Compartilhar', '⭐ Salvar'].map(btn => (
+                                {['🔗 Compartilhar'/* , '⭐ Salvar' */].map(btn => (
                                     <button key={btn} className="btn btn--secondary" style={{
                                         flex: 1, padding: 10, borderRadius: 'var(--radius-sm)',
                                         fontSize: 12,

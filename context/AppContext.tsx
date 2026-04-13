@@ -10,6 +10,7 @@ interface AppContextType {
   setUserType: (t: 'volunteer' | 'ong') => void;
   currentUserRole: UserRole;
   setCurrentUserRole: (role: UserRole) => void;
+  setCurrentUser: (user: any) => void;
   currentUser: any; // Ideally we type this strongly later
 }
 
@@ -17,8 +18,8 @@ const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider = ({ children }: { children: ReactNode }) => {
   const [selectedVaga, setSelectedVaga] = useState<Vaga | null>(null);
-  const [userType, setUserType] = useState<'volunteer' | 'ong'>('volunteer');   
-  const [currentUserRole, setCurrentUserRole] = useState<UserRole>('guest');    
+  const [userType, setUserType] = useState<'volunteer' | 'ong'>('volunteer');
+  const [currentUserRole, setCurrentUserRole] = useState<UserRole>('guest');
   const [currentUser, setCurrentUser] = useState<any>(null);
 
   // Initialize actual Auth Status
@@ -49,7 +50,7 @@ export const AppProvider = ({ children }: { children: ReactNode }) => {
       selectedVaga, setSelectedVaga,
       userType, setUserType,
       currentUserRole, setCurrentUserRole,
-      currentUser
+      currentUser, setCurrentUser
     }}>
       {children}
     </AppContext.Provider>
