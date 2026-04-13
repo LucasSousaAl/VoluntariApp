@@ -842,12 +842,19 @@ profile-card-mini__content {
 }
 
 /* ── Mobile adjustments for profile-grid offline ── */
-@media (max-width: 768px) {
-  .profile-grid {
+@media (min-width: 768px) {
+  .vaga-detail-grid {
     grid-template-columns: 1fr;
   }
+}
+/* ── Tablet/Desktop (≥ 992px) ── */
+@media (min-width: 992px) {
+  .home_grid {
+    grid-template-columns: 1fr 320px;
+    align-items: start;
+  }
 
-  .profile-card {
-    position: static;
+  .vaga-sidebar {
+    display: flex;
   }
 }
