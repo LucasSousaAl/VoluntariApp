@@ -12,14 +12,26 @@ export async function list(req: NextApiRequest, res: NextApiResponse) {
 }
 
 export async function create(req: NextApiRequest, res: NextApiResponse) {
-  const { nome, localidade, email, telefone } = req.body ?? {};
+  const { nome, localidade, email, telefone, latitude, longitude } = req.body ?? {};
 
   if (!nome || !localidade || !email || !telefone) {
     return res.status(400).json({ error: 'Os campos nome, localidade, email e telefone são obrigatórios.' });
   }
 
+  let validLat: number | null = null;
+  let validLng: number | null = null;
+
+  if (latitude != null && longitude != null) {
+    const lat = Number(latitude);
+    const lng = Number(longitude);
+    if (!isNaN(lat) && !isNaN(lng) && lat >= -90 && lat <= 90 && lng >= -180 && lng <= 180) {
+      validLat = lat;
+      validLng = lng;
+    }
+  }
+
   try {
-    const created = await OngModel.create({ nome, localidade, email, telefone });
+    const created = await OngModel.create({ nome, localidade, email, telefone, latitude: validLat, longitude: validLng });
     return res.status(201).json(created);
   } catch (error: any) {
     if (error.code === '23505') {

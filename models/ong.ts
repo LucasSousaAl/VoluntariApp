@@ -6,12 +6,14 @@ export interface Ong {
   localidade: string;
   email: string;
   telefone: string;
+  latitude?: number | null;
+  longitude?: number | null;
   criado_em?: string;
 }
 
 export async function list(): Promise<Ong[]> {
   return database.query<Ong>({
-    text: 'SELECT id, nome, localidade, email, telefone, criado_em FROM ongs ORDER BY criado_em DESC',
+    text: 'SELECT id, nome, localidade, "geoLocation", email, telefone, criado_em FROM ongs ORDER BY criado_em DESC',
   });
 }
 
@@ -24,14 +26,21 @@ export async function findById(id: string): Promise<Ong | null> {
 }
 
 export async function create(data: Omit<Ong, 'id' | 'criado_em'>): Promise<Ong> {
-  const result = await database.query<Ong>({
-    text: `
-      INSERT INTO ongs (nome, localidade, email, telefone)
-      VALUES ($1, $2, $3, $4)
-      RETURNING id, nome, localidade, email, telefone, criado_em
-    `,
-    values: [data.nome, data.localidade, data.email, data.telefone],
-  });
+  const hasCoords = data.latitude != null && data.longitude != null;
+
+  const text = hasCoords
+    ? `INSERT INTO ongs (nome, localidade, email, telefone, "geoLocation")
+       VALUES ($1, $2, $3, $4, ST_SetSRID(ST_MakePoint($5, $6), 4326)::geography)
+       RETURNING id, nome, localidade, email, telefone, criado_em`
+    : `INSERT INTO ongs (nome, localidade, email, telefone)
+       VALUES ($1, $2, $3, $4)
+       RETURNING id, nome, localidade, email, telefone, criado_em`;
+
+  const values = hasCoords
+    ? [data.nome, data.localidade, data.email, data.telefone, data.longitude, data.latitude]
+    : [data.nome, data.localidade, data.email, data.telefone];
+
+  const result = await database.query<Ong>({ text, values });
   return result[0];
 }
 
