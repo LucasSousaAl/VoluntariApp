@@ -639,6 +639,11 @@ profile-card-mini__content {
 }
 
 /* ── Vaga detail 2-col ─────────────────────────────────────── */
+@media (min-width: 768px) {
+  .vaga-detail-grid {
+    display: block;
+  }
+}
 .vaga-detail-grid {
   display: grid;
   grid-template-columns: 1fr 380px;
@@ -849,10 +854,5 @@ profile-card-mini__content {
 
   .profile-card {
     position: static;
-  }
-}
-@media (max-width: 768px) {
-  .vaga-detail-grid {
-    display: block;
   }
 }
