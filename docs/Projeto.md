@@ -33,6 +33,7 @@ O **VoluntariApp** é uma plataforma web progressiva (PWA) que conecta voluntár
 
 - Oferecer um catálogo centralizado de vagas de voluntariado com filtros por categoria, modalidade e geolocalização
 - Permitir que ONGs publiquem e gerenciem suas oportunidades de trabalho voluntário
+- Permitir que empresas privadas disponibilizem editais para distribuição de verba e financiamente de projetos sociais. 
 - Facilitar o processo de candidatura por parte dos voluntários
 - Enviar notificações em tempo real sobre novas vagas e atualizações via push notifications
 - Funcionar offline como PWA, garantindo acesso mesmo em condições de conectividade limitada
