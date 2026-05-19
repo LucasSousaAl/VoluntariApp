@@ -43,7 +43,8 @@ O **VoluntariApp** é uma plataforma web progressiva (PWA) que conecta voluntár
 | Perfil | Capacidades |
 |--------|------------|
 | **Voluntário** (`volunteer`) | Cadastrar perfil, buscar vagas por localização/categoria, candidatar-se, acompanhar histórico |
-| **ONG** (`ong`) | Cadastrar organização, publicar vagas, visualizar candidatos inscritos, gerenciar oportunidades |
+| **ONG** (`ong`) | Cadastrar organização, publicar vagas, visualizar candidatos inscritos, gerenciar oportunidades, candidatar-se a editais de empresas |
+| **Empresa** (`empresa`) | Cadastrar empresa, publicar editais com verba disponível, avaliar e aprovar candidaturas de ONGs |
 
 ---
 
@@ -315,6 +316,35 @@ erDiagram
         TIMESTAMP criado_em
     }
 
+    empresas {
+        VARCHAR21 id PK "nanoid()"
+        VARCHAR255 nome
+        VARCHAR18 cnpj UK
+        VARCHAR255 email UK
+        VARCHAR50 telefone
+        TIMESTAMP criado_em
+    }
+
+    edital {
+        VARCHAR21 id PK "nanoid()"
+        VARCHAR21 empresa_id FK
+        VARCHAR255 titulo
+        TEXT descricao
+        DOUBLE verba
+        DATE prazo
+        VARCHAR50 status "aberto | encerrado | aprovado"
+        TIMESTAMP criado_em
+    }
+
+    candidaturas_edital {
+        VARCHAR21 id PK "nanoid()"
+        VARCHAR21 ong_id FK
+        VARCHAR21 edital_id FK
+        TEXT proposta
+        VARCHAR50 status "pendente | aprovada | rejeitada"
+        TIMESTAMP dt_candidatura
+    }
+
     trabalhos {
         VARCHAR21 id PK "nanoid()"
         VARCHAR21 ong_id FK
@@ -349,6 +379,9 @@ erDiagram
     usuarios ||--o{ inscricoes : "candidata-se"
     trabalhos ||--o{ inscricoes : "recebe candidaturas"
     usuarios ||--o{ push_subscriptions : "assina notificações"
+    empresas ||--o{ edital : "publica"
+    edital ||--o{ candidaturas_edital : "recebe candidaturas"
+    ongs ||--o{ candidaturas_edital : "candidata-se"
 ```
 
 ---
