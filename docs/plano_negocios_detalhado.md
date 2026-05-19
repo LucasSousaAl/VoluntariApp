@@ -340,7 +340,7 @@ journey
 graph TD
     R[Receita VoluntariApp]
     R --> R1[Comissão sobre Editais\n5-8% do valor intermediado]
-    R --> R2[Plano Premium ONG\nR$ 149/mês por organização]
+    R --> R2[Plano Premium ONG\nR$ 79/mês por organização]
     R --> R3[Voluntário\nGratuito - efeito de rede]
 
     R1 -->|Empresa aprova ONG| T[Transação financeira\nempresa → ONG]
@@ -361,7 +361,7 @@ graph TD
 | Plano | Preço | Funcionalidades |
 |---|---|---|
 | **Free** | R$ 0 | Publicar vagas, receber candidaturas, painel básico |
-| **Premium** | R$ 149/mês | + Destaque de vagas, relatórios avançados, múltiplos gestores, acesso antecipado a editais |
+| **Premium** | R$ 79/mês | + Destaque de vagas, relatórios avançados, múltiplos gestores, acesso antecipado a editais |
 
 **Empresas — Modelo de comissão**
 
@@ -384,7 +384,7 @@ graph TD
 | Valor médio de edital | R$ 120.000 |
 | Comissão média aplicada | 6,5% |
 | Receita média por edital | R$ 7.800 |
-| Preço do plano Premium ONG | R$ 149/mês |
+| Preço do plano Premium ONG | R$ 79/mês |
 | Churn mensal Premium | 5% |
 | Custo de aquisição de ONG (CAC) | R$ 200 |
 | Custo de aquisição de empresa (CAC) | R$ 2.500 |
@@ -395,76 +395,80 @@ graph TD
 xychart-beta
     title "Crescimento de usuários cadastrados"
     x-axis [M3, M6, M9, M12, M18, M24]
-    y-axis "Usuários" 0 --> 5000
-    bar [150, 500, 1200, 2500, 3800, 5000]
-    line [20, 60, 140, 280, 420, 600]
+    y-axis "Usuários" 0 --> 2500
+    bar [40, 130, 280, 550, 1000, 1700]
+    line [5, 12, 25, 45, 75, 115]
 ```
 
-> Barras = Voluntários | Linha = ONGs cadastradas
+> Barras = Voluntários | Linha = ONGs cadastradas. Crescimento orgânico gradual típico de plataformas B2B/social em estágio inicial.
 
-#### Projeção de Receita — Cenário Base
+#### Projeção de Receita — Cenário Base (5 Anos)
 
-| Período | Editais/período | Receita Editais | ONGs Premium (média) | Receita Premium | **Total** |
+| Período | Editais/ano | Receita Editais | ONGs Premium (média) | Receita Premium | **Total** |
 |---|---|---|---|---|---|
-| Ano 1 — Q1-Q2 | 1 | R$ 7.800 | 5 | R$ 4.470 | R$ 12.270 |
-| Ano 1 — Q3-Q4 | 3 | R$ 23.400 | 12 | R$ 10.728 | R$ 34.128 |
-| **Ano 1 Total** | **4** | **R$ 31.200** | **—** | **R$ 15.198** | **R$ 46.398** |
-| Ano 2 — Q1-Q2 | 6 | R$ 46.800 | 25 | R$ 22.350 | R$ 69.150 |
-| Ano 2 — Q3-Q4 | 10 | R$ 78.000 | 45 | R$ 40.230 | R$ 118.230 |
-| **Ano 2 Total** | **16** | **R$ 124.800** | **—** | **R$ 62.580** | **R$ 187.380** |
-| **Ano 3 Total** | **40** | **R$ 312.000** | **120 ONGs** | **R$ 214.560** | **R$ 526.560** |
+| **Ano 1** | **2** | **R$ 15.600** | **5** | **R$ 4.740** | **R$ 20.340** |
+| **Ano 2** | **5** | **R$ 39.000** | **18** | **R$ 17.064** | **R$ 56.064** |
+| **Ano 3** | **12** | **R$ 93.600** | **45** | **R$ 42.660** | **R$ 136.260** |
+| **Ano 4** | **22** | **R$ 171.600** | **80** | **R$ 75.840** | **R$ 247.440** |
+| **Ano 5** | **35** | **R$ 273.000** | **120** | **R$ 113.760** | **R$ 386.760** |
 
-#### Projeção de Custos
+#### Projeção de Custos (5 Anos)
 
-| Item | Ano 1 | Ano 2 | Ano 3 |
-|---|---|---|---|
-| Hosting / Vercel | R$ 3.600 | R$ 7.200 | R$ 14.400 |
-| PostgreSQL + PostGIS (gerenciado) | R$ 2.400 | R$ 6.000 | R$ 12.000 |
-| Push Notifications | R$ 600 | R$ 1.800 | R$ 4.800 |
-| Desenvolvimento (horas/equipe) | R$ 72.000 | R$ 108.000 | R$ 144.000 |
-| Marketing digital | R$ 12.000 | R$ 30.000 | R$ 60.000 |
-| Jurídico / contratos / LGPD | R$ 8.000 | R$ 10.000 | R$ 12.000 |
-| Operacional (ferramentas, misc) | R$ 3.600 | R$ 6.000 | R$ 9.600 |
-| **Total Custos** | **R$ 102.200** | **R$ 169.000** | **R$ 256.800** |
+| Item | Ano 1 | Ano 2 | Ano 3 | Ano 4 | Ano 5 |
+|---|---|---|---|---|---|
+| Infraestrutura (Vercel + DB + Push) | R$ 2.100 | R$ 6.000 | R$ 14.400 | R$ 25.200 | R$ 40.800 |
+| Monitoramento (Sentry/Datadog) | R$ 0 | R$ 600 | R$ 1.800 | R$ 3.600 | R$ 4.800 |
+| Desenvolvimento | R$ 0 ¹ | R$ 0 ¹ | R$ 0 ¹ | R$ 0 ¹ | R$ 0 ¹ |
+| Customer Success externo (PJ) | R$ 0 | R$ 6.000 | R$ 36.000 | R$ 48.000 | R$ 60.000 |
+| Growth / Marketing (pessoa) | R$ 0 | R$ 0 | R$ 0 | R$ 36.000 | R$ 48.000 |
+| Product Manager (PJ) | R$ 0 | R$ 0 | R$ 0 | R$ 0 | R$ 36.000 |
+| Marketing digital | R$ 3.600 | R$ 15.000 | R$ 24.000 | R$ 36.000 | R$ 48.000 |
+| Jurídico / contratos / LGPD | R$ 4.800 | R$ 6.000 | R$ 8.000 | R$ 10.000 | R$ 12.000 |
+| Operacional (ferramentas, misc) | R$ 1.800 | R$ 4.800 | R$ 7.200 | R$ 10.800 | R$ 15.000 |
+| **Total Custos** | **R$ 12.300** | **R$ 38.400** | **R$ 91.400** | **R$ 169.600** | **R$ 264.600** |
 
-#### Resultado Projetado
+> ¹ Desenvolvimento realizado pelos **4 fundadores-desenvolvedores em regime de equity** — custo-oportunidade não contabilizado no caixa operacional. Contratações externas são progressivas e sempre sustentadas pela receita corrente, sem necessidade de capital externo ou dívida.
+
+#### Resultado Projetado (5 Anos)
 
 | Período | Receita | Custos | **Resultado** | **Margem** |
 |---|---|---|---|---|
-| Ano 1 | R$ 46.398 | R$ 102.200 | **-R$ 55.802** | -120% |
-| Ano 2 | R$ 187.380 | R$ 169.000 | **+R$ 18.380** | +10,8% |
-| Ano 3 | R$ 526.560 | R$ 256.800 | **+R$ 269.760** | +51,2% |
+| Ano 1 | R$ 20.340 | R$ 12.300 | **+R$ 8.040** | +40% |
+| Ano 2 | R$ 56.064 | R$ 38.400 | **+R$ 17.664** | +32% |
+| Ano 3 | R$ 136.260 | R$ 91.400 | **+R$ 44.860** | +33% |
+| Ano 4 | R$ 247.440 | R$ 169.600 | **+R$ 77.840** | +31% |
+| Ano 5 | R$ 386.760 | R$ 264.600 | **+R$ 122.160** | +32% |
 
-> **Break-even estimado: mês 20–22** (Q2 do Ano 2), considerando o cenário base.
+> Modelo **lucrativo desde o Ano 1**, sustentado pelos 4 fundadores-desenvolvedores que eliminam o principal custo de startups de tecnologia na fase inicial. Os custos escalam proporcionalmente à receita — o time externo só é contratado quando a receita recorrente já financia a posição sem comprometer o caixa.
 
-#### Fluxo de Caixa Simplificado — Ano 1
+#### Receita Mensal Estimada — Ano 1
 
 ```mermaid
 xychart-beta
-    title "Fluxo de Caixa Mensal - Ano 1"
+    title "Receita Mensal - Ano 1"
     x-axis [Jan, Fev, Mar, Abr, Mai, Jun, Jul, Ago, Set, Out, Nov, Dez]
-    y-axis 0 --> 14000
-    bar [0, 0, 300, 700, 1300, 2000, 4300, 6400, 9300, 10700, 12300, 13600]
+    y-axis 0 --> 10000
+    bar [0, 0, 150, 350, 500, 700, 8700, 900, 1100, 8100, 1300, 1500]
 ```
 
-> Valores deslocados em +R$ 8.500 para visualização (base real: -R$ 8.500 em Janeiro). Caixa positivo real a partir de Setembro.
+> Receita concentrada nos meses com edital aprovado (picos em Jul e Out). Meses sem edital sustentados por recorrência Premium. Custo operacional médio mensal no Ano 1: ~R$ 1.025 (infra + jurídico + marketing orgânico). Resultado anual estimado: **+R$ 8.040**, viabilizado pelo modelo lean com fundadores-desenvolvedores.
 
 ---
 
 ### 5.4 Indicadores-Chave de Desempenho (KPIs)
 
-| KPI | Meta Ano 1 | Meta Ano 2 | Meta Ano 3 |
-|---|---|---|---|
-| Voluntários cadastrados | 2.500 | 8.000 | 20.000 |
-| ONGs ativas | 120 | 400 | 1.000 |
-| ONGs Premium | 15 | 60 | 150 |
-| Editais intermediados | 4 | 16 | 40 |
-| Volume intermediado (R$) | R$ 480.000 | R$ 1,92M | R$ 4,8M |
-| Taxa de conversão voluntário→candidatura | 15% | 22% | 30% |
-| NPS médio da plataforma | >40 | >55 | >65 |
-| CAC Voluntário | R$ 15 | R$ 10 | R$ 7 |
-| CAC ONG | R$ 200 | R$ 150 | R$ 100 |
-| LTV ONG Premium (24 meses) | R$ 2.682 | R$ 3.576 | R$ 4.470 |
+| KPI | Ano 1 | Ano 2 | Ano 3 | Ano 4 | Ano 5 |
+|---|---|---|---|---|---|
+| Voluntários cadastrados | 800 | 2.200 | 5.000 | 10.000 | 18.000 |
+| ONGs ativas | 60 | 150 | 300 | 550 | 800 |
+| ONGs Premium | 8 | 25 | 60 | 100 | 140 |
+| Editais intermediados | 2 | 5 | 12 | 22 | 35 |
+| Volume intermediado (R$) | R$ 240.000 | R$ 600.000 | R$ 1,44M | R$ 2,64M | R$ 4,2M |
+| Taxa de conversão voluntário→candidatura | 12% | 18% | 25% | 30% | 35% |
+| NPS médio da plataforma | >35 | >45 | >55 | >62 | >70 |
+| CAC Voluntário | R$ 20 | R$ 15 | R$ 10 | R$ 8 | R$ 6 |
+| CAC ONG | R$ 250 | R$ 180 | R$ 130 | R$ 100 | R$ 80 |
+| LTV ONG Premium | R$ 1.422 | R$ 1.738 | R$ 2.054 | R$ 2.212 | R$ 2.370 |
 
 ---
 
@@ -509,22 +513,31 @@ graph TB
 
 ### 6.2 Recursos Humanos
 
-**Equipe mínima atual (fase MVP)**
+**Equipe fundadora (Ano 1–2)**
+
+A sociedade é composta por **5 fundadores**, sendo **4 aptos ao desenvolvimento técnico** do produto. Este é o principal diferencial de capital da empresa: elimina o custo dominante de startups de tecnologia na fase de validação.
+
+| Papel | Qtd | Responsabilidade |
+|---|---|---|
+| Fundadores Desenvolvedores | 4 | Desenvolvimento full-stack, manutenção, novas features, migrations e DevOps |
+| Fundador Gestor | 1 | Estratégia, comercial com empresas, parcerias com ONGs |
+
+> Nos Anos 1 e 2, todos os custos de desenvolvimento são cobertos pelos fundadores em regime de equity. Isso permite que a empresa seja lucrativa desde o primeiro ano sem necessidade de investimento externo.
+
+**Primeiras contratações externas (Ano 3 — financiadas pela receita)**
 
 | Papel | Responsabilidade |
 |---|---|
-| Full-stack developer | Desenvolvimento, manutenção, novas features, migrations |
-| Fundador / Gestor | Estratégia, comercial com empresas, parcerias com ONGs |
+| Customer Success (PJ) | Onboarding de ONGs, suporte premium, retenção de assinantes |
+| Growth / Marketing (PJ) | Aquisição orgânica, conteúdo, SEO, campanhas |
 
-**Equipe necessária para escala (Ano 2)**
+**Equipe em escala (Ano 4–5 — crescimento via receita recorrente)**
 
 | Papel | Responsabilidade |
 |---|---|
-| 2× Full-stack developers | Velocidade de desenvolvimento e cobertura |
-| Product Manager | Roadmap, priorização, métricas |
-| Growth / Marketing | Aquisição de usuários, conteúdo, SEO |
-| Customer Success | Onboarding de ONGs e empresas, suporte premium |
-| Jurídico (PJ) | Contratos de intermediação, LGPD, termos de uso |
+| Customer Success Sênior (CLT) | Gestão de contas de empresas e ONGs Premium |
+| Growth Sênior (CLT) | Parcerias estratégicas, expansão para novas cidades |
+| Product Manager (PJ) | Roadmap, priorização, métricas de produto |
 
 ### 6.3 Recursos Intangíveis
 
@@ -706,7 +719,7 @@ gantt
     section Fase 3 - Crescimento
     Parceria com rede de ONGs       :2026-02, 2026-06
     Campanha de marketing digital   :2026-03, 2026-09
-    Break-even operacional          :milestone, 2026-06, 1d
+    300 ONGs ativas e 12 editais/ano :milestone, 2026-12, 1d
 
     section Fase 4 - Escala
     Expansão para 5 cidades         :2026-07, 2026-12
@@ -822,7 +835,7 @@ quadrantChart
 | **Canais** | Redes sociais, SEO, parcerias, indicação | Em construção |
 | **Relacionamento** | Self-service + push + comercial direto para empresas | Ativo |
 | **Receita** | Comissão editais (principal) + Premium ONG (recorrente) | Em desenvolvimento |
-| **Financeiro** | Break-even no mês 20–22; Ano 3 com margem 51% | Projetado |
+| **Financeiro** | Lucrativo desde o Ano 1 (4 fundadores-devs = zero custo de desenvolvimento em caixa); margem estável ~32% ao longo dos 5 anos | Projetado |
 | **Recursos** | Next.js + PostgreSQL/PostGIS + Vercel + Web Push | Operacional |
 | **Atividades** | Matching, gestão de vagas, intermediação de editais, notificações | Ativas |
 | **Parcerias** | Early adopters sendo captados; empresas ESG = próximo passo | Em andamento |
