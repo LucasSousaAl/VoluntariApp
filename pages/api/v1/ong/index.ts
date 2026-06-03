@@ -1,11 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next';
-import { cors } from 'infra/core';
 import OngController from 'controllers/ong';
 import { withAuth } from 'infra/middleware';
 
 async function handler(req: NextApiRequest, res: NextApiResponse) {
-  if (cors(req, res)) return;
-
   switch (req.method) {
     case 'GET': return OngController.list(req, res);
     case 'POST': return OngController.create(req, res);

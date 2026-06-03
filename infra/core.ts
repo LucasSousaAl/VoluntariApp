@@ -6,22 +6,33 @@ export interface CorsOptions {
   headers?: string;
 }
 
-export function cors(req: NextApiRequest, res: NextApiResponse, options: CorsOptions = {}): boolean {
+/**
+ * Per-route CORS helper. Most routes don't need to call this anymore
+ * because the root `middleware.ts` already sets CORS headers for every
+ * `/api/*` request and handles preflight. Use this only if a specific
+ * route needs to override the defaults.
+ */
+export function cors(
+  req: NextApiRequest,
+  res: NextApiResponse,
+  options: CorsOptions = {},
+): boolean {
+  const requestOrigin = (req.headers.origin as string | undefined) ?? '*';
   const {
-    origin = 'https://voluntari-app-two.vercel.app',
-    methods = 'GET, POST, PUT, DELETE, OPTIONS',
+    origin = requestOrigin,
+    methods = 'GET, POST, PUT, DELETE, PATCH, OPTIONS',
     headers = 'Content-Type, Authorization',
-  } = options
+  } = options;
 
-  res.setHeader('Access-Control-Allow-Origin', origin)
-  res.setHeader('Access-Control-Allow-Methods', methods)
-  res.setHeader('Access-Control-Allow-Headers', headers)
+  res.setHeader('Access-Control-Allow-Origin', origin);
+  res.setHeader('Access-Control-Allow-Methods', methods);
+  res.setHeader('Access-Control-Allow-Headers', headers);
+  res.setHeader('Vary', 'Origin');
 
-  // Preflight
   if (req.method === 'OPTIONS') {
-    res.status(200).end()
-    return true // sinaliza que deve parar aqui
+    res.status(204).end();
+    return true;
   }
 
-  return false
+  return false;
 }
